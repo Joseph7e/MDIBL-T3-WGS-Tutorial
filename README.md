@@ -133,7 +133,7 @@ manual: https://busco.ezlab.org/
 # Busco requires a path variable to be set before use.
 echo export PATH="/usr/local/src/augustus-3.2.2/scripts/":$PATH >> ~/.bashrc
 source ~/.bashrc
-'''
+```
 
 * Path to lineage data on RON: 
 ```bash
