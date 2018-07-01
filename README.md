@@ -9,6 +9,8 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 [Filezilla Download](https://filezilla-project.org/download.php)
 
+[PuTTY Download](https://www.putty.org/)
+
 
 ## Starting Data:
 Your starting data is in a directory called "Sample_X" (where X donates your sample name). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads.
