@@ -2,7 +2,7 @@
 Bacterial Genome Assembly and Assessment Tutorial
 
 
-## Various Resources
+## Various Resources:
 [MDIBL T3 Course Website](https://labcentral.mdibl.org/workspaces/view/5ad10ee2-cf8c-4894-a980-1172d1dec312/pages/5ad8c98a-76a8-4b42-a40d-18a4d1dec312)
 
 [Beginning Bash Cheatsheet](https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners)
