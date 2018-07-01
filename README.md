@@ -14,7 +14,15 @@ Bacterial Genome Assembly and Assessment Tutorial
 Your starting data is in a directory called "Sample_X" (where X donates your sample name). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads.
 
 * Get your bearing on the server and view data
-
+```bash
+# print your current working directory
+pwd
+# ls to view your read directory
+ls Sample*
+# use the 'tree' command
+tree
+tree -L 2
+```
 [Read Name Format](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
