@@ -90,6 +90,7 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 ## Genome Assembly w/ SPAdes
 manual: http://cab.spbu.ru/software/spades/
+
 alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss),[MaSuRCA](http://masurca.blogspot.com/)
 
 * Run SPAdes
