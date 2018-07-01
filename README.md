@@ -128,9 +128,17 @@ manual: http://quast.bioinf.spbau.ru/manual.html
 ## Genome Content Assessment w/ BUSCO
 manual: https://busco.ezlab.org/
 
+* BUSCO preperation
+```bash
+# Busco requires a path variable to be set before use.
+echo export PATH="/usr/local/src/augustus-3.2.2/scripts/":$PATH >> ~/.bashrc
+source ~/.bashrc
+'''
+
 * Path to lineage data on RON: 
 ```bash
-#
+# View available sets
+ls /usr/local/src/augustus-3.2.2/rc/
 ```
 * Run BUSCO
 ```bash
