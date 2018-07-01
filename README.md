@@ -136,6 +136,7 @@ manual: https://busco.ezlab.org/
 
 ## Genome Annotation w/ PROKKA
 manual: https://github.com/tseemann/prokka
+
 alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_annotation/)
 
 * Run PROKKA
