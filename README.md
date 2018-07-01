@@ -26,7 +26,7 @@ tree -L 2
 [Read Name Format](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-* Prepare working directory
+* Prepare working directory - keep things organized for your future self
 ```bash
 #
 ```
@@ -39,7 +39,7 @@ tree -L 2
 ```
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
-* Count Raw Reads
+* Count The Number of Raw Reads
 ```bash
 # 
 ```
