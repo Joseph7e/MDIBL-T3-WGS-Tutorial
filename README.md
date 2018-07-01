@@ -131,7 +131,7 @@ manual: https://busco.ezlab.org/
 * BUSCO preperation
 ```bash
 # Busco requires a path variable to be set before use.
-echo export PATH="/usr/local/src/augustus-3.2.2/scripts/":$PATH >> ~/.bashrc
+echo export AUGUSTUS_CONFIG_PATH="/usr/local/src/augustus-3.2.2/config/" >> ~/.bashrc
 source ~/.bashrc
 ```
 
