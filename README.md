@@ -70,7 +70,7 @@ scp USERNAME@ron.sr.unh.edu:/home/maineBK/USERNAME/mdibl-t3-2018-WGS/fastqc_raw-
 ## Adapter and Quality Trimming w/ Trimmomatic
 manual: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf
 
-alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.html),[skewer](https://github.com/relipmoc/skewer)
+alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.html), [skewer](https://github.com/relipmoc/skewer)
 
 * Run Trimmomatic
 ```bash
