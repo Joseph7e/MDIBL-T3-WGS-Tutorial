@@ -180,7 +180,7 @@ ls /usr/local/src/augustus-3.2.2/rc/
 ## Genome Annotation w/ PROKKA
 manual: https://github.com/tseemann/prokka
 
-alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_annotation/)
+alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_annotation/), [Glimmer](https://ccb.jhu.edu/software/glimmer/)
 
 * Run PROKKA
 ```bash
