@@ -30,24 +30,39 @@ tree -L 2
 
 * Prepare working directory - keep things organized for your future self
 ```bash
-#
+# Make a new directory and add Sample directory into it
+mkdir mdibl-t3-2018-WGS
+mv Sample* mdibl-t3-2018-WGS/
+cd mdibl-t3-2018-WGS/
+# make the sample directory name more meaningful
+mv Sample_X Sample_X-raw_reads
 ```
 
 * Examine Raw Reads
        - Note the extension, this data is compressed.
 ```bash
-# 
-
+# Examine the reads with zcat
+zcat Sample*/*_R1_* | more
+# unzip the data and view
+gunzip Sample*/*_R1_*
+more Sample*/*_R1_*
+# rezip the data
+gzip Sample*/*_R1_*
+# Examine reads directly with less
+less -S Sample*/*_R1_*
 ```
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
 * Count The Number of Raw Reads
 ```bash
-# 
+# using grep
+zgrep -c '@HSQ' Sample*/*R1*
+# counting the lines and divide by 4
+zcat Sample*/*_R1_* | wc -l
 ```
 
-* Whats our total bp of data?
-* If we have a 5 MB genome, what is our average coverage?
+* Whats our total bp of data? (Read length x 2(paired-end) x Number of reads)
+* If we have a 5 MB genome, what is our average coverage? (Total bp/5,000,000)
 
 ## Read Quality Check w/ FASTQC
 manual: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
@@ -58,7 +73,10 @@ alterative tools: Just use fastqc
 
 * Run Fastqc
 ```bash
-#
+mkdir fastqc_raw-reads
+fastqc Sample_*/*_R1_* Sample_*/*_R2_* -o fastqc_raw-reads
+ls fastqc_raw-reads
+# the resulting folder contains a zipped archive and an html file
 ```
 
 * Transfer resulting HTML files to computer using filezilla or with the commandline on OSX/Linux.
@@ -74,19 +92,26 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 * Run Trimmomatic
 ```bash
-# 
+# Run wrapper script
+trim_script_TruSeq.sh <forward_reads> <reverse_reads>
 ```
 * Move trimmed reads to new directory
 ```bash
-#
+mkdir trimmed_reads
+mv paired* unpaired* trimmed_reads/ 
 ```
 
 * How do I know where scripts are held?
 ```bash
-# 
+# determine where the script is held
+which trim_script_TruSeq.sh
+# view it
+more /usr/local/bin/trim_script_TruSeq.sh
+# examine adapters, path found in above command
+more /usr/share/trimmomatic/TruSeq2-PE.fa
 ```
 * Run FastQC again.
-* Count the number of reads in the new files
+* Count the number of reads in the new files (see above)
 
 ## Genome Assembly w/ SPAdes
 manual: http://cab.spbu.ru/software/spades/
@@ -95,11 +120,18 @@ alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss),
 
 * Run SPAdes
 ```bash
-#
+# examine the help menu
+spades.py --help
+# using "nohup some_command &" allows you to run the job on the server while your laptop is closed/off 
+nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default &
 ```
 * View Output Data
 ```bash
-# 
+ls spades_assembly_default/
+# view FASTA file
+less -S spades_assembly_default/contigs.fasta
+# view the top 10 headers
+grep '>' spades_assembly_default/contigs.fasta | head
 ```
 
 * Clean up Spades dictory.
