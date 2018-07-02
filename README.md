@@ -192,3 +192,16 @@ grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | s
 
 ![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
 
+
+## Read Mapping w/ BWA and samtools
+
+* Full workflow
+```bash
+bwa index -a bwtsw $fasta
+bwa mem -M -t 24 $fasta $forward $reverse > raw_mapped.sam
+samtools view -@ 24 -Sb -F 4  raw_mapped.sam  | samtools sort -@ 24 - -o sorted_mapped.bam
+#bioawk -c fastx '{ print $name, length($seq) }' < $fasta > genome.txt
+#genomeCoverageBed -ibam sorted_mapped.bam -g genome.txt > coverage.txt
+bedtools genomecov -ibam sorted_mapped.bam > coverage.out
+gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
+```
