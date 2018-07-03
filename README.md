@@ -224,7 +224,7 @@ The FASTA format is similiar to the FASTQ format except it does not include qual
 
 In the case of SPAdes the contig headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the contigs are organized by length where the longest contigs are first.
 
-* Clean up Spades dictory.
+* Clean up Spades directory.
 
 When you listed the SPAdes directory you could see that it makes a lot of output folders, all of which are explained in the manual. We really only 'care' about the contigs.fasta file and the spades.log. The spades.log is important because it includes details about how exactly we ran the assembly. If you ever wanted to reproduce your assembly this file might come in handy. The rest of the files can be deleted, if we ever need them you can always use the spades.log to rerun the analysis.
 
@@ -387,9 +387,8 @@ extract_sequences "16S ribosomal RNA" prokka_output/PROKKA_*.ffn > 16S_sequence.
 less -s 16S_sequence.fasta
 ```
 
-
-
 ## NCBI BLAST
+
 
 
 ## Command Line BLAST
