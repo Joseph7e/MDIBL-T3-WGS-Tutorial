@@ -3,7 +3,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 ## General Overview
 
-   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
+   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
    
 
 ## Various Resources:
@@ -19,32 +19,32 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 
 ### General Notes:
-For each program that we run there are links to the manuals. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. **spades -h**. Also. never forget about google for quick answers to any confusion.
+For each program that we run there are links to the manuals. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. **spades -h**. Also ... never forget about google for quick answers to any confusion.
 
 Also note that this tutorial assumes a general understanding of the BASH environment. You should be familiar with moving around the directories and understand how to manipulate files.
 
-Commands are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicated a comment and BASH knows to ignore these lines. 
+Throughout the tutorial the commands you will type are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicates a comment and BASH knows to ignore these lines. 
 
-**Remember to tab complete!** There is a reason the tab key is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't auto-complete it means you either have a spelling mistake or are in a different directory than yoy originally thought.
+**Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't auto-complete it means you either have a spelling mistake or are in a different directory than you originally thought.
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample_Dir into each of your directories, each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. The files are in **FASTQ** format (see below). 
+Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample directory into each of your directories, each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
 
 * Get your bearing on the server - it's hard to know where your going if you don't know where you are.
 ```bash
 # print your current working directory. If you just logged in you should be in your home directory (/home/group/username/)
 pwd
-# change to your ser home directory in case you weren't already there.
+# change to your home directory in case you weren't already there. Remember ~/ is an absolute path to your home directory.
 cd ~/
 # ls to view your read directory.
 ls Sample_*
 # use the 'tree' command to view your current directory structure.
 tree
-# if things are messy you can limit the nnumber of sub-directories you see with the '-L' option.
+# if things are messy you can limit the number of sub-directories you see with the '-L' option.
 tree -L 2
 ```
 
-* Quick note: In the above command I use the "\*" charcter to view the Sample directory. This is because everyone will have a different Sample name.  
+** Quick note: In the above command I use the "\*" charcter to view the Sample directory. This is a wildcard which means match any character. I use this because everyone will have a different Sample name. In commands below I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!  ** 
 
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
