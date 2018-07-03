@@ -316,13 +316,19 @@ nohup busco -i contigs.fasta -o busco_output -m genome -l /usr/local/src/augustu
 
 * Examine the BUSCO output.
 
-The first file we will look at is the short_summary_busco_output.txt. This is a file which summarizes the main findings, how many of the expected genes did we find? This summary breaks the report into four main categories: complete single-copy genes, complete duplicated genes, fragmented genes, and missing genes. We are hopeful that the majority of our genes will be found as 'complete single-copy'. Duplicated genes could indicate that that particular gene underwent a gene duplication event or that we had a missassembly and essentially have two copies of a region of our genome. Fragmented genes are an aritfact of the fact that our genome did not assemble perfectly. Some of our genome is fragmented into mulitple contigs, and with that some of our genes are going to be fragmented as well. This is why it is important to inspect the N50 of the genome with QUAST. We want the majority of our contigs to be at least as big as a gene, if it't not than we will have many fragmented genes as a result.
+The first file we will look at is the 'short_summary_busco_output.txt'. This is a file which summarizes the main findings, how many of the expected genes did we find? This summary breaks the report into four main categories: complete single-copy genes, complete duplicated genes, fragmented genes, and missing genes. We are hopeful that the majority of our genes will be found as 'complete single-copy'. Duplicated genes could indicate that that particular gene underwent a gene duplication event or that we had a missassembly and essentially have two copies of a region of our genome. Fragmented genes are an aritfact of the fact that our genome did not assemble perfectly. Some of our genome is fragmented into mulitple contigs, and with that some of our genes are going to be fragmented as well. This is why it is important to inspect the N50 of the genome with QUAST. We want the majority of our contigs to be at least as big as a gene, if it's not than we will have many fragmented genes as a result.
 
+Next we will view the 'full_table_busco_output.tsv' file. This is a file which shows the coordinates for all the associated single copy genes in our genome. It also provides information about the status of that ortholog (missing, complete, fragmented). This tsv file can be exported and viewed in excel.
+
+The final files we will examine are in a directory called 'single_copy_busco_sequences/'. This houses all the amino acid and protein sequences. This is a rich source for comparative genomics and other sorts of analysis.
 
 ```bash
 # view the short summary
 less -S run_busco_output/short_summary_busco_output.txt
-
+# view the full table
+less -S run_busco_output/full_table_busco_output.tsv
+# list and view a amino acid of protein sequence
+ls run_busco_output/single_copy_busco_sequences/
 ```
 
 ## Genome Annotation w/ PROKKA
@@ -332,25 +338,38 @@ alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_
 
 ![prokka_workflow](https://user-images.githubusercontent.com/18738632/42130490-e45251b6-7cb4-11e8-99ef-9579b9b7ce05.png)
 
-As you can see PROKKA does a lot. See the course website and manual for detailed information. It is a complex program that is very easy to run. You 
+PROKKA does a lot, and is documented very well, so i will point you towards the course website and manual for more detailed information. It is a "rapid prokaryote genome annotation pipeline". Some of the relavent options include what genetic code your organism uses (standard is default), and what types of sequneces you want to annotate (tRNA, rRNA, CDS).
 
 * Run PROKKA
-```bash
-# L
-grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | sort | uniq -c | sort -nr > protein_abundances.txt
-```
 
+ **The input to the program is your contig FASTA file, the output is gene annotations in GFF (and other) formats, as well as FFN (nucleotide) and FAA (amino acid) FASTA sequence files for all the annotated sequences.** We will be using several of these files to investigate the genome content of our genome. What genes does it have? What do these gene code for?
+ 
+```bash
+# look at the help menu.
+prokka --help
+# run the script, specifying an output dircetory
+nohup prokka contigs.fasta --outdir prokka_output --cpus 24 --mincontiglen 200 &
+```
 
 * PROKKA Output
+![prokka_output](https://user-images.githubusercontent.com/18738632/42244846-894db27e-7ee4-11e8-8fd2-2293f1a6309c.png)
+
 ```bash
-# L
+# list all the output files.
+ls prokka_output
+# The GFF file contains the all the annotations and coordinates. It can be viewed in excel or with BASH. 
+# Extract all the products from the GFF (we made this command up in class)
+# 'grep -o' is used to pull out only CDS sequences with a product, just the definition.
+# sed 's/search_term/replace_term/g', is used to search a replace items, below we want to remove all the 'product='
+# "sort | uniq -c " togethor combine all the duplicate lines and provide a count for each.
+# finally we save it to a file
+# did this one step at a time to see how it works in progress.
 grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | sort | uniq -c | sort -nr > protein_abundances.txt
 ```
 
+This is a good time to explore and make use of BASH. Count the number of lines in the GFF that contain 'CDS'. How many tRNAs did we identify. etc. etc. We will be using more of these files later on in the tutorial.
 
 * Extract the 16S sequence from the FFN file.
-
-
 
 
 ![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
