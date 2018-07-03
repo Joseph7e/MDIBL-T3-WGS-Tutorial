@@ -49,9 +49,9 @@ tree -L 2
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-* Prepare your working directory - It is a good idea to keep your directories tidy and to name your files somehting that makes since. This is just to keep things organized so it makes sense to your future self.
+* Prepare your working directory - It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now.
 ```bash
-# Make a new directory and add Sample directory into it
+# Make a new directory and add the Sample directory into it
 mkdir mdibl-t3-2018-WGS
 mv Sample* mdibl-t3-2018-WGS/
 cd mdibl-t3-2018-WGS/
@@ -93,7 +93,7 @@ less -S Sample*/*_R1_*
 
 * Count The Number of Raw Reads
 
-I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
+I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome upfront. Usually these file contains millions of reads, good thing BASH is great for parsing large data files! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
 
 ```bash
 # using grep
@@ -128,7 +128,7 @@ mkdir fastqc_raw-reads
 # run the program
 fastqc Sample_*/*_R1_* Sample_*/*_R2_* -o fastqc_raw-reads
 ls fastqc_raw-reads
-# the resulting folder should contain a zipped archive and an html file
+# the resulting folder should contain a zipped archive and an html file, we can ignore the zipped archive which is redundant.
 ```
 
 * Transfer resulting HTML files to computer using filezilla or with the commandline on OSX/Linux.
@@ -147,7 +147,7 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 * Run Trimmomatic
 
-You may have noticed from the fastqc output the some of your reads had poor qualities towards the end of the sequences, this is especially true for the reverse reads. You may also notice that fastqc failed for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
+You may have noticed from the fastqc output the some of your reads had poor qualities towards the end of the sequences, this is especially true for the reverse reads and is common for illumina data. You may also notice that the fastqc report failed for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
 
 ```bash
 # Run wrapper script
@@ -166,7 +166,7 @@ When the program finishes it outputs four files. paired_forward.fastq.gz, paired
 
 Similiar to above you can run FASTQC again with your new trimmed reads. Comparing the original html and the new one you should note the differences (higher quality and no adapters).
 
-You can also count the number of reads for each of your files. How does this compare to the original count? What percentage of your reads did you lose?
+You can also count the number of reads for each of your files exactly how you did above (of course with different reads). How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
 
 ## Genome Assembly w/ SPAdes
 manual: http://cab.spbu.ru/software/spades/
@@ -174,7 +174,7 @@ manual: http://cab.spbu.ru/software/spades/
 alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss),[MaSuRCA](http://masurca.blogspot.com/)
 
 
-There are many programs that are used for genome assembly. For the most part they are run the same. The input will be a set of sequencing reads in fastq format and the output will be a FASTA file which is the genome assembly.
+With our trimmed reads we are now ready to assemble our genomes (check out Kelley's PowerPount for how it works). There are many programs that are used for genome assembly and different assemblers work well with certain genomes (how large the genome is, how complex is the genome, is it a Eukaryote) butSPAdes works very well for most bacteria. For the most part these sorts of programs are run the same. **The input will be a set of sequencing reads in fastq format and the output will be a FASTA file which is the genome assembly**. I encourage you to try out a different assembler and compare the results once you are comfortable.
 
 
 * Run SPAdes
@@ -182,8 +182,11 @@ There are many programs that are used for genome assembly. For the most part the
 # examine the help menu
 spades.py --help
 # using "nohup some_command &" allows you to run the job on the server while your laptop is closed/off 
-nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default &
+nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default -t 24 &
 ```
+
+Notice that the above command makes use of nohup and &. This allows you to close your computer and let the server continue working and/or let you continue working while the job runs in the background. This is the most computationaly expensive program of the pipeline. It is taking our millions of reads and attempting to put them back togethor, as you can image that'll take a lot of thinking.
+
 * View Output Data
 ```bash
 ls spades_assembly_default/
