@@ -80,29 +80,32 @@ Each read in a fastq file is four lines long.
 
     - Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
 
-    - Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As,Ts,Cs and Gs.
+    - Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As, Ts, Cs, and Gs.
 
-     - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
+    - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
 
-     - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
+    - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
 
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
 ![quality_info](https://user-images.githubusercontent.com/18738632/42226531-2f343178-7ead-11e8-8401-5a2fb455b4ef.png)
 
-I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! 
+
 
 * Count The Number of Raw Reads
+
+I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! 
+
 ```bash
 # using grep
 zgrep -c '@HSQ' Sample*/*R1*
 # counting the lines and divide by 4
 zcat Sample*/*_R1_* | wc -l
 ```
-* Whats our total bp of data? (Read length x 2(paired-end) x Number of reads)
+* Whats our total bp of data? This is what we call our sequencing throughput (Read length x 2(paired-end) x Number of reads)
 * If we have a 7 MB genome, what is our average coverage? (Total bp/7,000,000)
 
-If you completed the above calculation lets hop you have at least 10X coverage. For the most part, the higher the coverage the better off we are. If you have low coverage you'll want to do some more sequenicng and get more read data. Usually published genomes have at least 70-100X coverage.
+If you completed the above calculation lets hope you have at least 10X coverage. For the most part, the higher the coverage the better off we are. If you have low coverage you'll want to do some more sequencing and get more read data. Usually published genomes have at least 70-100X coverage.
 
 ## Read Quality Check w/ FASTQC
 manual: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
@@ -112,14 +115,22 @@ alterative tools: Just use fastqc
 [FASTQC explained](http://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/)
 
 * Run Fastqc
+
+Fastqc is a program to summarize the read qualities. Since we have millions of reads there is no practical way to do this by hand. We call the program to parse through the fastq files and do the hard work for us. **The input to the program is one or more fastq file(s) and the output is an html file with several figures.** The link above describes what each of the figures are showing. I mainly use the first figure which is our read qualities and the last figure which shows what sort of adapter content we have. Note that this program does not do anything to your data, it mearly reads it.
+
 ```bash
+# make a directory to store the output
 mkdir fastqc_raw-reads
+# run the program
 fastqc Sample_*/*_R1_* Sample_*/*_R2_* -o fastqc_raw-reads
 ls fastqc_raw-reads
-# the resulting folder contains a zipped archive and an html file
+# the resulting folder should contain a zipped archive and an html file
 ```
 
 * Transfer resulting HTML files to computer using filezilla or with the commandline on OSX/Linux.
+
+On filezilla you will need to enter the same server information when you login form the terminal. Be sure to use port 22.  
+
 ```bash
 # In a fresh terminal on OSX or Linux
 scp USERNAME@ron.sr.unh.edu:/home/maineBK/USERNAME/mdibl-t3-2018-WGS/fastqc_raw-reads/*.html /path/to/put/files
@@ -131,32 +142,36 @@ manual: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomat
 alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.html), [skewer](https://github.com/relipmoc/skewer)
 
 * Run Trimmomatic
+
+You may have noticed from the fastqc output the some of your reads had poor qualities towards the end of the sequences, this is especially true for the reverse reads. You may also notice that fastqc failed for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
+
 ```bash
 # Run wrapper script
-trim_script_TruSeq.sh <forward_reads> <reverse_reads>
+trim_script_TruSeq.sh Sample_*/*_R1_* Sample_*/*_R2_*
 ```
-* Move trimmed reads to new directory
+* Move the new trimmed reads to new directory - remember its a good idea to keep the directory clean.
 ```bash
 mkdir trimmed_reads
-mv paired* unpaired* trimmed_reads/ 
+# move all the 
+mv *fastq.gz trimmed_reads/
+# confirm that the files have moved
+ls trimmed_reads/
 ```
 
-* How do I know where scripts are held?
-```bash
-# determine where the script is held
-which trim_script_TruSeq.sh
-# view it
-more /usr/local/bin/trim_script_TruSeq.sh
-# examine adapters, path found in above command
-more /usr/share/trimmomatic/TruSeq2-PE.fa
-```
-* Run FastQC again.
-* Count the number of reads in the new files (see above)
+When the program finishes it outputs four files. paired_forward.fastq.gz, paired_reverse.fastq.gz, and two unpaired reads. These output files are cleaned reads which hopefully have only highly confident sequences and have no adapters. Some sequences will be lost entirely, some will lose a few bases off the ends, and some won't be trimmed at all. When a reverse read is lost but a forward read is maintained, the forward read will be written to the unpaired_forward.fastq.gz file (and vise-versa)
+
+Similiar to above you can run FASTQC again with your new trimmed reads. Comparing the original html and the new one you should note the differences (higher quality and no adapters).
+
+You can also count the number of reads for each of your files. How does this compare to the original count? What percentage of your reads did you lose?
 
 ## Genome Assembly w/ SPAdes
 manual: http://cab.spbu.ru/software/spades/
 
 alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss),[MaSuRCA](http://masurca.blogspot.com/)
+
+
+There are many programs that are used for genome assembly. For the most part they are run the same. The input will be a set of sequencing reads in fastq format and the output will be a FASTA file which is the genome assembly.
+
 
 * Run SPAdes
 ```bash
