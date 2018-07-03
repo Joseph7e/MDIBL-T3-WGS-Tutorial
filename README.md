@@ -55,7 +55,7 @@ Quick note: **In the above command I use the "\*" charcter to view the Sample di
 
 * Prepare your working directory
 
-It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now.
+It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now. We are going to make a new directory to house all of the analyses for this tutorial.
 
 ```bash
 # Make a new directory and add the Sample directory into it
@@ -100,12 +100,12 @@ less -S Sample*/*_R1_*
 
 * Count The Number of Raw Reads
 
-I always start by counting the number of reads I have for each sample. This is done to quickly assess whether we have enough data to assemble a meaningful genome. Usually these file contains millions of reads, good thing BASH is great for parsing! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
+I always start by counting the number of reads I have for each sample. This is done to quickly assess whether we have enough data to assemble a meaningful genome. Usually these file contains millions of reads, good thing BASH is great for parsing large files! Note that the forward and reverse reads will have the same number of entries so you only need to count one.
 
 ```bash
-# using grep
+# using grep. Note that I don't count just '@', this is because that symbol may appear in the quality lines.
 zgrep -c '@HSQ' Sample*/*R1*
-# counting the lines and divide by 4
+# counting the lines and dividing by 4. Remember each read entry is exactly four lines long. These numbers should match.
 zcat Sample*/*_R1_* | wc -l
 ```
 * Whats our total bp of data? This is what we call our sequencing throughput 
@@ -154,13 +154,13 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 * Run Trimmomatic
 
-You may have noticed from the fastqc output the some of your reads have poor qualities towards the end of the sequence, this is especially true for the reverse reads and is common for Illumina data. You may also notice that the fastqc report 'failed' for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
+You may have noticed from the fastqc output the some of your reads have poor qualities towards the end of the sequence, this is especially true for the reverse reads and is common for Illumina data. You may also notice that the fastqc report 'failed' for adapter content. The Trimmomtic program will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files**. We will use these trimmed reads for our genome assembly. When you are more comfortable using BASH you can call Trimmomatic directly by using the manual or by copying the code from the provided script.
 
 ```bash
 # Run wrapper script
 trim_script_TruSeq.sh Sample_*/*_R1_* Sample_*/*_R2_*
 ```
-* Move the new trimmed reads to new directory - remember its a good idea to keep the directory clean.
+* Move the trimmed reads to new directory - remember its a good idea to keep the directory clean.
 ```bash
 mkdir trimmed_reads
 # move all the 
@@ -169,23 +169,20 @@ mv *fastq.gz trimmed_reads/
 ls trimmed_reads/
 ```
 
-When the program finishes it outputs four files. paired_forward.fastq.gz, paired_reverse.fastq.gz, and two unpaired reads. These output files are cleaned reads, which hopefully retained the highly confident sequences only and have removed the adapters from the end of the sequences. Some sequences will be lost entirely, some will lose a few bases off the ends, and some won't be trimmed at all. When a reverse read is lost but a forward read is maintained, the forward read will be written to the unpaired_forward.fastq.gz file (and vise-versa)
-
-Similiar to above you can run FASTQC again with your new trimmed reads. Comparing the original html and the new one you should note the differences (higher quality and no adapters).
+When the program finishes it outputs four files. paired_forward.fastq.gz, paired_reverse.fastq.gz, and two unpaired reads. These output files are cleaned reads, which hopefully retained the highly confident sequences and have removed the adapters from the sequences. Some sequences will be lost entirely, some will lose a few bases off the ends, and some won't be trimmed at all. When a reverse read is lost but a forward read is maintained, the forward read will be written to the unpaired_forward.fastq.gz file (and vise-versa).
 
 ![fastqc](https://user-images.githubusercontent.com/18738632/42241259-ef2d5f0c-7ed7-11e8-8a7f-f7407979202f.png)
 
+Similiar to above, you can run FASTQC again with your new trimmed reads. Comparing the original html and the new one you should note the differences (see above).
 
-
-You can also count the number of reads for each of your files exactly how you did above (of course with different reads). How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
+You can also count the number of reads for each of your files like you did for the raw reads. How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
 
 ## Genome Assembly w/ SPAdes
 manual: http://cab.spbu.ru/software/spades/
 
-alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss),[MaSuRCA](http://masurca.blogspot.com/)
+alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss), [MaSuRCA](http://masurca.blogspot.com/)
 
-
-With our trimmed reads we are now ready to assemble our genomes (check out Kelley's PowerPount for how it works). There are many programs that are used for genome assembly and different assemblers work well with certain genomes (how large the genome is, how complex is the genome, is it a Eukaryote) butSPAdes works very well for most bacteria. For the most part these sorts of programs are run the same. **The input will be a set of sequencing reads in fastq format and the output will be a FASTA file which is the genome assembly**. I encourage you to try out a different assembler and compare the results once you are comfortable.
+With our trimmed reads in hand are now ready to assemble our genomes (check out Kelley's PowerPount for how it works). There are many programs that are used for genome assembly and different assemblers work well with certain genomes (how large the genome is, how complex, is it a Eukaryote, etc), but SPAdes works very well for most bacteria. Either way these programs are usually run with the same sort of syntex. **The input is a set of sequencing reads in fastq format and the output will be a FASTA file which is the genome assembly**. I encourage you to try out a different assembler and compare the results.
 
 
 * Run SPAdes
@@ -196,12 +193,13 @@ spades.py --help
 nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default -t 24 &
 ```
 
-Notice that the above command makes use of 'nohup' and '&'. Its good practice to always use these two together. This allows you to close your computer and let the server continue working and let you continue working while the job runs in the background. This is the most computationaly expensive program of the pipeline. It is taking our millions of reads and attempting to put them back togethor, as you can image that takes a lot of work.
+Notice that the above command makes use of 'nohup' and '&'. Its good practice to always use these two together. This allows you to close your computer and let the server continue working and/or let you continue working while the job runs in the background. This is the most computationaly expensive program of the pipeline. It is taking our millions of reads and attempting to put them back togethor, as you can image that takes a lot of work. It will probably take a few hours to run.
 
+You can check the output of nohup for any errors. If there are any errors you will see them at the bottom of the file. The best way to check is with the 'tail' command. Try 'tail nohup.out'.
 
 * Check the status of your job w/ 'top' -- [top explanation](https://www.booleanworld.com/guide-linux-top-command/)
 ```bash
-# simple top lets you see all the jobs that are running on the server
+# 'top' lets you see all the jobs that are running on the server
 top
 # adding the user option lets you view just your jobs
 top -u $USER
@@ -209,7 +207,7 @@ top -u $USER
 echo $USER
 ```
 
-* View Output Data
+* View Output Data When the assembly finishes.
 ```bash
 ls spades_assembly_default/
 # view FASTA file
@@ -222,9 +220,9 @@ grep -c '>' spades_assembly_default/contigs.fasta
 
 * FASTA format
 
-The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp like teh raw reads in a FASTQ they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfect and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome in question. We typically see a genome split into 10's to 100's of contigs for a typical run.
+The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome in question. We typically see a genome split into 10's to 100's of contigs for a typical run.
 
-In the case of SPAdes the contig headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the the contigs are organized by length where the lomgest contigs are first.
+In the case of SPAdes the contig headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the contigs are organized by length where the longest contigs are first.
 
 * Clean up Spades dictory.
 
@@ -234,16 +232,16 @@ We are going to proceed to remove these unwanted files. While our server has a l
 
 
 ```bash
-# There is many ways to do this, proceed however you are comfortable. I am going to move the files I want to keep out of the directory, delete everything else with one 'rm' then move my files back in. Alternatively you could remove unwanted files one at a time.
-# Move into the spades dircetory
+# There are many ways to do this, proceed however you are comfortable. I am going to move the files I want to keep out of the directory, delete everything else with 'rm' then move my files back in. Alternatively you could remove unwanted files one at a time.
+# Move into the spades directory
 cd spades_spades_assembly_default/
-# move the files we want to keep back on directory
+# move the files we want to keep back one directory
 mv contigs.fasta spades.log ../
 # confirm that the files moved!!!!!!!
 ls ../
 # confirm you are still in the spades_directory (I'm paranoid)
 pwd
-# you should see somehting like /home/maineBK/UserName/mdibl/mdibl-t3-2018-WGS/spades_directory_default/
+# you should see something like /home/maineBK/UserName/mdibl/mdibl-t3-2018-WGS/spades_directory_default/
 # After you confirm the files have been moved and you are in the right dircetory, delete the unwanted files
 rm -r *
 # move the files back
@@ -252,11 +250,20 @@ mv ../contigs.fasta ../spades.log ./
 ls
 ```
 
+# Genome Assessment
+
+Now that are initial spades assembly is completed we can move on to genome assessment. We will use QUAST to examine contiguity, BUSCO to assess completeness, and blobtools to check for contamination.
+
+We are also going to use BLAST to identify our organisms. Up to this point you probably don't know what it is.
+
+
 ## Genome Structure Assessment w/ QUAST
 manual: http://quast.bioinf.spbau.ru/manual.html
 
 
-QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly. How well was the genome reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of all your contigs and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers or different option. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
+QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly. How well was the genome reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? How large is your genome assembly? 
+
+QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of each contig and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers or different options you may use. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
 
 
 
@@ -268,9 +275,15 @@ quast.py --help
 quast.py contigs.fasta -o quast_results
 ```
 * View ouput files
+
+Most of the output files from QUAST contain the same information in different formats (tsv, txt, csv etc).
+
 ```bash
-#
+# 
+less -S report.txt
 ```
+![quast_output](https://user-images.githubusercontent.com/18738632/42242349-8db09646-7edb-11e8-8c05-f4ba103c9201.png)
+
 
 ## Genome Content Assessment w/ BUSCO
 manual: https://busco.ezlab.org/
