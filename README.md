@@ -49,7 +49,7 @@ tree -L 2
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-* Prepare your working directory - this is just to keep things organized for your future self. I like to keep things tidy.
+* Prepare your working directory - It is a good idea to keep your directories tidy and to name your files somehting that makes since. This is just to keep things organized so it makes sense to your future self.
 ```bash
 # Make a new directory and add Sample directory into it
 mkdir mdibl-t3-2018-WGS
@@ -60,7 +60,7 @@ mv Sample_X Sample_X-raw_reads
 ```
 
 * Examine the Raw Reads
-       - Note the file extension, fastq.gz, this data is compressed because these files can get large very quickly. Since they are compressed this means we either have to decompress the data (with gzip) or using variations of the typical commands to exmaine the files. Instead of 'cat' we use 'zcat', instead of grep we can use 'zgrep'. Below I show both ways.
+       - Note the file extension - fastq.gz. Since these files are usually pretty big it is standard to recieve them compressed and most programs will except this compressed version. To view these files ourselves (which you normally wouldn't do) you either have to decompress the data with gzip or by using variations of the typical commands. Instead of 'cat' we use 'zcat', instead of grep we can use 'zgrep'. Below I show both ways.
        
 ```bash
 # Examine the reads with zcat
@@ -86,6 +86,8 @@ Line 3. Begins with a '+' symbol, this is the header for the read quality. Usual
 Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
 
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
+
+![quality_info](https://user-images.githubusercontent.com/18738632/42226531-2f343178-7ead-11e8-8401-5a2fb455b4ef.png)
 
 I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! 
 
