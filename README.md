@@ -3,7 +3,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 ## General Overview
 
-   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
+   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (in fastq format). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. The SPAdes pipeline does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file as output, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
    
 
 ## Various Resources:
@@ -11,7 +11,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 [Beginning Bash Cheatsheet](https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners)
 
-[More BASH tutorials] (http://nhinbre.org/wp-content/uploads/2015/06/intro_worksheet-1.pdf)
+[More BASH tutorials](http://nhinbre.org/wp-content/uploads/2015/06/intro_worksheet-1.pdf)
 
 [Filezilla Download](https://filezilla-project.org/download.php)
 
@@ -19,9 +19,9 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 
 ### General Notes:
-For each program that we run there are links to the manuals. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. **spades -h**. Also ... never forget about google for quick answers to any confusion.
+**For each program that we run there are links to the manuals**. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. It is also a good idea to check out the publication which is usually associated with a new program. The commands we run are usually general and mostly rely on default settings, this works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
 
-Also note that this tutorial assumes a general understanding of the BASH environment. You should be familiar with moving around the directories and understand how to manipulate files.
+Also note that this tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
 
 Throughout the tutorial the commands you will type are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicates a comment and BASH knows to ignore these lines. 
 
@@ -185,7 +185,18 @@ spades.py --help
 nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default -t 24 &
 ```
 
-Notice that the above command makes use of nohup and &. This allows you to close your computer and let the server continue working and/or let you continue working while the job runs in the background. This is the most computationaly expensive program of the pipeline. It is taking our millions of reads and attempting to put them back togethor, as you can image that'll take a lot of thinking.
+Notice that the above command makes use of 'nohup' and '&'. Its good practice to always use these two together. This allows you to close your computer and let the server continue working and let you continue working while the job runs in the background. This is the most computationaly expensive program of the pipeline. It is taking our millions of reads and attempting to put them back togethor, as you can image that takes a lot of work.
+
+
+* Check the status of your job w/ 'top' -- [top explanation](https://www.booleanworld.com/guide-linux-top-command/)
+```bash
+# simple top lets you see all the jobs that are running on the server
+top
+# adding the user option lets you view just your jobs
+top -u $USER
+# the "$USER" variable always links to your user name, to see what I mean echo it.
+echo $USER
+```
 
 * View Output Data
 ```bash
@@ -194,25 +205,56 @@ ls spades_assembly_default/
 less -S spades_assembly_default/contigs.fasta
 # view the top 10 headers
 grep '>' spades_assembly_default/contigs.fasta | head
+# count the number of sequences
+grep -c '>' spades_assembly_default/contigs.fasta
 ```
+
+* FASTA format
+
+The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp like teh raw reads in a FASTQ they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfect and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome in question. We typically see a genome split into 10's to 100's of contigs for a typical run.
+
+In the case of SPAdes the contig headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the the contigs are organized by length where the lomgest contigs are first.
 
 * Clean up Spades dictory.
-It is a good idea to keep your directories clean and organized. A part of this means cleaning up unwanted files.
-    
-```bash
-# 
-```
 
-* How can I remove all the unwanted data and keep the contigs and log?
-* How can I view just the headers? How about the top 10?
-* How can I count the number of contigs I have?
+When you listed the SPAdes directory you could see that it makes a lot of output folders, all of which are explained in the manual. We really only 'care' about the contigs.fasta file and the spades.log. The spades.log is important because it includes details about how exactly we ran the assembly. If you ever wanted to reproduce your assembly this file might come in handy. The rest of the files can be deleted, if we ever need them you can always use the spades.log to rerun the analysis.
+
+We are going to proceed to remove these unwanted files. While our server has a lot of storage it is still a good idea to clean up after yourself. With hundreds of users even small files can add up to take up a lot of storage. **Remember if you delete a file using the 'rm' command it is gone forever, there is no way to get it back, there is no recover from trash bin, so be careful!**
+
+
+```bash
+# There is many ways to do this, proceed however you are comfortable. I am going to move the files I want to keep out of the directory, delete everything else with one 'rm' then move my files back in. Alternatively you could remove unwanted files one at a time.
+# Move into the spades dircetory
+cd spades_spades_assembly_default/
+# move the files we want to keep back on directory
+mv contigs.fasta spades.log ../
+# confirm that the files moved!!!!!!!
+ls ../
+# confirm you are still in the spades_directory (I'm paranoid)
+pwd
+# you should see somehting like /home/maineBK/UserName/mdibl/mdibl-t3-2018-WGS/spades_directory_default/
+# After you confirm the files have been moved and you are in the right dircetory, delete the unwanted files
+rm -r *
+# move the files back
+mv ../contigs.fasta ../spades.log ./
+# list the directory and you should see just the two files.
+ls
+```
 
 ## Genome Structure Assessment w/ QUAST
 manual: http://quast.bioinf.spbau.ru/manual.html
 
+
+QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly. How well was the genome reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of all your contigs and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers or different option. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
+
+
+
 * Run Quast
 ```bash
-#
+# look at the usage
+quast.py --help
+# run the command
+quast.py contigs.fasta -o quast_results
 ```
 * View ouput files
 ```bash
@@ -293,3 +335,13 @@ blobtools view -i blob_out.blobDB.json -r all -o blob_taxonomy
 blobtools plot -i blob_out.blobDB.json -r genus
 
 ```
+
+
+## Comparative Genomics w/ Orthofinder
+
+
+```bash
+orthofinder2 -f 
+```
+
+https://www.biostars.org/p/123021/
