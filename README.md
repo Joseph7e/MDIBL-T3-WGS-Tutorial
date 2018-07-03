@@ -225,7 +225,9 @@ gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
 * Generate "Hits" file
 
 * RUnnning BLAST on the server
-
-
+```bash
+blobtools create -i contigs.fasta -b raw_mapped.sam -t contigs.fasta.vs.nt.cul5.1e5.megablast.out -o blob_out
+blobtools view -i blob_out.blobDB.json -r all -o blob_taxonomy
+blobtools plot -i blob_out.blobDB.json -r genus
 
 ```
