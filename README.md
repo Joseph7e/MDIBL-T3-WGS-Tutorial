@@ -4,7 +4,6 @@ Bacterial Genome Assembly and Assessment Tutorial
 ## General Overview
 
    Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (in fastq format). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. The SPAdes pipeline does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file as output, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
-   
 
 ## Various Resources:
 [MDIBL T3 Course Website](https://labcentral.mdibl.org/workspaces/view/5ad10ee2-cf8c-4894-a980-1172d1dec312/pages/5ad8c98a-76a8-4b42-a40d-18a4d1dec312)
@@ -17,20 +16,24 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 [PuTTY Download](https://www.putty.org/)
 
+Any Questions when working through this? Email me: jlsevigny1@wildcats.unh.edu
 
 ### General Notes:
-**For each program that we run there are links to the manuals**. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. It is also a good idea to check out the publication which is usually associated with a new program. The commands we run are usually general and mostly rely on default settings, this works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
+**For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we runare general and usually execuated with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
 
-Also note that this tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
+This tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
 
-Throughout the tutorial the commands you will type are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicates a comment and BASH knows to ignore these lines. 
+Throughout this tutorial the commands you will type are formatted into the grey text boxes (don't do it when learning but they can be faithfully copied and pasted). The '#' symbol indicates a comment, BASH knows to ignore these lines. 
 
-**Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't auto-complete it means you either have a spelling mistake or are in a different directory than you originally thought.
+**Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample directory into each of your directories, each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
+Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample directory into each of your home directories, each represents the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
 
-* Get your bearing on the server - it's hard to know where your going if you don't know where you are.
+* Get your bearing on the server.
+
+It's hard to know where your going if you don't know where you are. When I am working on the server I constantly type 'ls' and 'pwd' to make sure I am where I think I am. You should too!
+
 ```bash
 # print your current working directory. If you just logged in you should be in your home directory (/home/group/username/)
 pwd
@@ -44,12 +47,16 @@ tree
 tree -L 2
 ```
 
-** Quick note: In the above command I use the "\*" charcter to view the Sample directory. This is a wildcard which means match any character. I use this because everyone will have a different Sample name. In commands below I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!  ** 
-
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-* Prepare your working directory - It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now.
+**Quick note: In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path and you should too. This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work** 
+
+
+* Prepare your working directory
+
+It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now.
+
 ```bash
 # Make a new directory and add the Sample directory into it
 mkdir mdibl-t3-2018-WGS
