@@ -28,7 +28,7 @@ Throughout this tutorial the commands you will type are formatted into the grey 
 **Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample directory into each of your home directories, each represents the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
+Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different set of Sample data into each of your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
 
 * Get your bearing on the server.
 
@@ -50,7 +50,7 @@ tree -L 2
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-**Quick note: In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path and you should too. This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work** 
+Quick note: **In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path using tab complete (which is what you should do). This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work** 
 
 
 * Prepare your working directory
@@ -100,7 +100,7 @@ less -S Sample*/*_R1_*
 
 * Count The Number of Raw Reads
 
-I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome upfront. Usually these file contains millions of reads, good thing BASH is great for parsing large data files! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
+I always start by counting the number of reads I have for each sample. This is done to quickly assess whether we have enough data to assemble a meaningful genome. Usually these file contains millions of reads, good thing BASH is great for parsing! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
 
 ```bash
 # using grep
@@ -127,7 +127,7 @@ alterative tools: Just use fastqc
 
 * Run Fastqc
 
-Fastqc is a program to summarize the read qualities. Since we have millions of reads there is no practical way to do this by hand. We call the program to parse through the fastq files and do the hard work for us. **The input to the program is one or more fastq file(s) and the output is an html file with several figures.** The link above describes what each of the figures are showing. I mainly use the first figure which is our read qualities and the last figure which shows what sort of adapter content we have. Note that this program does not do anything to your data, it mearly reads it.
+Fastqc is a program to summarize read qualities and base composition. Since we have millions of reads there is no practical way to do this by hand. We call the program to parse through the fastq files and do the hard work for us. **The input to the program is one or more fastq file(s) and the output is an html file with several figures.** The link above describes what each of the output figures are describing. I mainly focus on the first graph which visualizes our average read qualities and the last figure which shows the adapter content. Note that this program does not do anything to your data, as with the majority of the assessment tools, it mearly reads it.
 
 ```bash
 # make a directory to store the output
@@ -154,7 +154,7 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 * Run Trimmomatic
 
-You may have noticed from the fastqc output the some of your reads had poor qualities towards the end of the sequences, this is especially true for the reverse reads and is common for illumina data. You may also notice that the fastqc report failed for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
+You may have noticed from the fastqc output the some of your reads have poor qualities towards the end of the sequence, this is especially true for the reverse reads and is common for Illumina data. You may also notice that the fastqc report 'failed' for adapter content. This programs will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files** which we will use for genome assembly. When you are more comfortable using BASH you can call trimmomatic directly by using the manual or by copying the code from the provided script.
 
 ```bash
 # Run wrapper script
@@ -169,9 +169,13 @@ mv *fastq.gz trimmed_reads/
 ls trimmed_reads/
 ```
 
-When the program finishes it outputs four files. paired_forward.fastq.gz, paired_reverse.fastq.gz, and two unpaired reads. These output files are cleaned reads which hopefully have only highly confident sequences and have no adapters. Some sequences will be lost entirely, some will lose a few bases off the ends, and some won't be trimmed at all. When a reverse read is lost but a forward read is maintained, the forward read will be written to the unpaired_forward.fastq.gz file (and vise-versa)
+When the program finishes it outputs four files. paired_forward.fastq.gz, paired_reverse.fastq.gz, and two unpaired reads. These output files are cleaned reads, which hopefully retained the highly confident sequences only and have removed the adapters from the end of the sequences. Some sequences will be lost entirely, some will lose a few bases off the ends, and some won't be trimmed at all. When a reverse read is lost but a forward read is maintained, the forward read will be written to the unpaired_forward.fastq.gz file (and vise-versa)
 
 Similiar to above you can run FASTQC again with your new trimmed reads. Comparing the original html and the new one you should note the differences (higher quality and no adapters).
+
+![fastqc](https://user-images.githubusercontent.com/18738632/42241259-ef2d5f0c-7ed7-11e8-8a7f-f7407979202f.png)
+
+
 
 You can also count the number of reads for each of your files exactly how you did above (of course with different reads). How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
 
