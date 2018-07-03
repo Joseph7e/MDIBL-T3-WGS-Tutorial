@@ -1,7 +1,7 @@
 # MDIBL-T3-WGS
 Bacterial Genome Assembly and Assessment Tutorial
 
-       Throughout this tutorial we are going through the process of *de novo* genome assembly. This process begins with raw sequencing data in the form of fastqs you would recieve from a sequencing center. We start by examing the fastqs for quality with **fastqc**. Next we trim low quality bases from our reads and remove adapter sequences with **Trimmomatic**. Once we are happy with the quality of the bases we move directly into genome assembly with **SPAdes**. This program takes our trimmed sequencing reads and provides a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. From there we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. 
+   Throughout this tutorial we are going through the process of *de novo* genome assembly. This process begins with raw sequencing data in the form of fastqs you would recieve from a sequencing center. We start by examing the fastqs for quality with **fastqc**. Next we trim low quality bases from our reads and remove adapter sequences with **Trimmomatic**. Once we are happy with the quality of the bases we move directly into genome assembly with **SPAdes**. This program takes our trimmed sequencing reads and provides a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. From there we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. 
 
 
 
