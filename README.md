@@ -276,33 +276,53 @@ quast.py contigs.fasta -o quast_results
 ```
 * View ouput files
 
-Most of the output files from QUAST contain the same information in different formats (tsv, txt, csv etc).
+Most of the output files from QUAST contain the same information in different formats (tsv, txt, csv etc). Open up any of these files to see the output. Descriptions for each metric can be seen below.
 
-```bash
-# 
-less -S report.txt
-```
 ![quast_output](https://user-images.githubusercontent.com/18738632/42242349-8db09646-7edb-11e8-8c05-f4ba103c9201.png)
 
 
 ## Genome Content Assessment w/ BUSCO
 manual: https://busco.ezlab.org/
 
+
+BUSCO is a program utilized to assess the completeness of a genome assembly. This program makes use of the OrthoDB set of single-copy orthologous that are found in at least 90% of all the organisms in question. There are different datasets for various taxonomic groups (Eukaryotes, Metazoa, Bacteria, Gammaproteobacteria, etc. etc.). The idea is that a newly sequenced genome should contain most of these highly conserved genes. If your genome doesn't contain a large portion of these single-copy orthologues it may indicate that your genome is not complete.
+
+
 * BUSCO preperation
 ```bash
 # Busco requires a path variable to be set before use.
 echo export AUGUSTUS_CONFIG_PATH="/usr/local/src/augustus-3.2.2/config/" >> ~/.bashrc
+# resource your bashrc to let the change take affect. (google bashrc to see what it is)
 source ~/.bashrc
 ```
+* Path to lineage data on RON:
 
-* Path to lineage data on RON: 
+We will be using the Bacterial dataset for our BUSCO analyis. However, there are many datasets avaialble on our server. Listing the path below will show you all the available datasets. These can also be seen in the BUSCO manual linked above. 
+
 ```bash
 # View available sets
 ls /usr/local/src/augustus-3.2.2/rc/
 ```
 * Run BUSCO
+
+**The input to the program is your genome assembly (contigs) as well as a selection of which database to use. The output is a directory with a short summary of the results, a full table with coordinates for each orthologous gene is located in your assembly, and a directory with the nucleotide and amino acid sequences of all the idenitfied sequences.**
+
 ```bash
-#
+#look at the help menu
+busco --help
+# run busco
+nohup busco -i contigs.fasta -o busco_output -m genome -l /usr/local/src/augustus-3.2.2/rc/bacteria_odb9/ -c 24 &
+```
+
+* Examine the BUSCO output.
+
+The first file we will look at is the short_summary_busco_output.txt. This is a file which summarizes the main findings, how many of the expected genes did we find? This summary breaks the report into four main categories: complete single-copy genes, complete duplicated genes, fragmented genes, and missing genes. We are hopeful that the majority of our genes will be found as 'complete single-copy'. Duplicated genes could indicate that that particular gene underwent a gene duplication event or that we had a missassembly and essentially have two copies of a region of our genome. Fragmented genes are an aritfact of the fact that our genome did not assemble perfectly. Some of our genome is fragmented into mulitple contigs, and with that some of our genes are going to be fragmented as well. This is why it is important to inspect the N50 of the genome with QUAST. We want the majority of our contigs to be at least as big as a gene, if it't not than we will have many fragmented genes as a result.
+
+
+```bash
+# view the short summary
+less -S run_busco_output/short_summary_busco_output.txt
+
 ```
 
 ## Genome Annotation w/ PROKKA
@@ -310,18 +330,28 @@ manual: https://github.com/tseemann/prokka
 
 alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_annotation/), [Glimmer](https://ccb.jhu.edu/software/glimmer/)
 
+![prokka_workflow](https://user-images.githubusercontent.com/18738632/42130490-e45251b6-7cb4-11e8-99ef-9579b9b7ce05.png)
+
+As you can see PROKKA does a lot. See the course website and manual for detailed information. It is a complex program that is very easy to run. You 
+
 * Run PROKKA
 ```bash
+# L
 grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | sort | uniq -c | sort -nr > protein_abundances.txt
 ```
 
+
+* PROKKA Output
+```bash
+# L
+grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | sort | uniq -c | sort -nr > protein_abundances.txt
+```
 
 
 * Extract the 16S sequence from the FFN file.
 
 
 
-![prokka_workflow](https://user-images.githubusercontent.com/18738632/42130490-e45251b6-7cb4-11e8-99ef-9579b9b7ce05.png)
 
 ![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
 
