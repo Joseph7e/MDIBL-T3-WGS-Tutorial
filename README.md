@@ -78,13 +78,13 @@ less -S Sample*/*_R1_*
 * Fastq file format
 Each read in a fastq file is four lines long. 
 
-    Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
+    - Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
 
-    Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As,Ts,Cs and Gs.
+    - Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As,Ts,Cs and Gs.
 
-    Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
+     - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
 
-    Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
+     - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
 
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
