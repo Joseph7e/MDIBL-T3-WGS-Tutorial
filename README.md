@@ -3,7 +3,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 ## General Overview
 
-   Throughout this tutorial we are going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve them from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. Hopefully by the end you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
+   Throughout this tutorial we are going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
    
 
 ## Various Resources:
@@ -17,13 +17,13 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 
 ### General Notes:
-For each program that we run there are links to the manuals, some more helpful than others. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these manuals to examine the options. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. **spades -h**. Also. never forget about google for quick answers to any confusion.
+For each program that we run there are links to the manuals, some more helpful than others. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these to examine the options and what it does. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. **spades -h**. Also. never forget about google for quick answers to any confusion.
 
 Also note that this tutorial assumes a general understanding of the BASH environment. You should be familiar with moving around the directories and understand how to manipulate files.
 
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per Sample, the forward and reverse reads. The files are in **FASTQ** format (see below). 
+Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample_Dir into each of your directories. Each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. The files are in **FASTQ** format (see below). 
 
 * Get your bearing on the server - it's hard to know where your going if you don't know where you are.
 ```bash
@@ -38,10 +38,10 @@ tree
 # if things are messy you can limit the nnumber of sub-directories you see with the '-L' option.
 tree -L 2
 ```
-[Read Name Format](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
+[Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-* Prepare your working directory - this is just to keep things organized for your future self.
+* Prepare your working directory - this is just to keep things organized for your future self. I like to keep things tidy.
 ```bash
 # Make a new directory and add Sample directory into it
 mkdir mdibl-t3-2018-WGS
