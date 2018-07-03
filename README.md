@@ -265,8 +265,6 @@ QUAST is a genome assembly assessment tool to look at the contiguity of a genome
 
 QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of each contig and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers or different options you may use. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
 
-
-
 * Run Quast
 ```bash
 # look at the usage
@@ -279,7 +277,6 @@ quast.py contigs.fasta -o quast_results
 Most of the output files from QUAST contain the same information in different formats (tsv, txt, csv etc). Open up any of these files to see the output. Descriptions for each metric can be seen below.
 
 ![quast_output](https://user-images.githubusercontent.com/18738632/42242349-8db09646-7edb-11e8-8c05-f4ba103c9201.png)
-
 
 ## Genome Content Assessment w/ BUSCO
 manual: https://busco.ezlab.org/
@@ -338,6 +335,10 @@ alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_
 
 ![prokka_workflow](https://user-images.githubusercontent.com/18738632/42130490-e45251b6-7cb4-11e8-99ef-9579b9b7ce05.png)
 
+
+![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
+
+
 PROKKA does a lot, and is documented very well, so i will point you towards the course website and manual for more detailed information. It is a "rapid prokaryote genome annotation pipeline". Some of the relavent options include what genetic code your organism uses (standard is default), and what types of sequneces you want to annotate (tRNA, rRNA, CDS).
 
 * Run PROKKA
@@ -359,20 +360,32 @@ nohup prokka contigs.fasta --outdir prokka_output --cpus 24 --mincontiglen 200 &
 ls prokka_output
 # The GFF file contains the all the annotations and coordinates. It can be viewed in excel or with BASH. 
 # Extract all the products from the GFF (we made this command up in class)
-# 'grep -o' is used to pull out only CDS sequences with a product, just the definition.
-# sed 's/search_term/replace_term/g', is used to search a replace items, below we want to remove all the 'product='
-# "sort | uniq -c " togethor combine all the duplicate lines and provide a count for each.
-# finally we save it to a file
-# did this one step at a time to see how it works in progress.
+# Copy this command to get a txt file with counts for each gene annotation.
 grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | sort | uniq -c | sort -nr > protein_abundances.txt
 ```
 
-This is a good time to explore and make use of BASH. Count the number of lines in the GFF that contain 'CDS'. How many tRNAs did we identify. etc. etc. We will be using more of these files later on in the tutorial.
+The above command does a lot. It is a good idea to break it up and examine what it is doing one step at a time.
+
+    'grep -o' is used to pull out only CDS sequences with a product, just the definition.
+    # sed 's/search_term/replace_term/g', is used to search a replace items, below we want to remove all the 'product='
+    # "sort | uniq -c " togethor combine all the duplicate lines and provide a count for each.
+    # finally we save it to a file by using " > my_file"
+
+This is a good time to explore and make use of BASH. Hopefully everyone is getting used to working in BASH so they can explore as they want. Try to count the number of lines in the GFF that contain 'CDS'. How many tRNAs did we identify. etc. etc. We will be using more of these files later on in the tutorial.
+
 
 * Extract the 16S sequence from the FFN file.
 
+The 16S sequence is a housekeeping gene coding for the large ribosomal subunit in Bacteria. It is highly conserved and found in every known Bacteria. This makes it a great tool to identiy the bacterium (which is why it is used in metabarcoding studies). This is (hopefully) one of the genes that were identified from PROKKA. It is not a protein so it won't be found in the FAA file but it should be in the FFN file. We are going to use a simple script we wrote that is avaialble on the server and this github page called "extract_sequence". **The program requires two inputs, 1.) a string to search in the headers (just like grep), 2.) the PROKKA ffn file. The program will output the sequence to the screen so be sure to save it with '>'. 
 
-![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
+```bash
+# grep for 16S in the PROKKA annotations to see if it exists
+grep 16S prokka_output/*.ffn
+# run extract with an exact header
+extract_sequences "16S ribosomal RNA" prokka_output/PROKKA_*.ffn > 16S_sequence.fasta
+# check if it worked
+less -s 16S_sequence.fasta
+```
 
 
 
