@@ -3,13 +3,15 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 ## General Overview
 
-   Throughout this tutorial we are going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
+   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (fastqs). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
    
 
 ## Various Resources:
 [MDIBL T3 Course Website](https://labcentral.mdibl.org/workspaces/view/5ad10ee2-cf8c-4894-a980-1172d1dec312/pages/5ad8c98a-76a8-4b42-a40d-18a4d1dec312)
 
 [Beginning Bash Cheatsheet](https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners)
+
+[More BASH tutorials] (http://nhinbre.org/wp-content/uploads/2015/06/intro_worksheet-1.pdf)
 
 [Filezilla Download](https://filezilla-project.org/download.php)
 
@@ -23,7 +25,7 @@ Also note that this tutorial assumes a general understanding of the BASH environ
 
 Commands are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicated a comment and BASH knows to ignore these lines. 
 
-**Remember to tab complete!** There is a reason the tab key is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't autocomleting you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't autocomplete it means you either have a spelling mistake or are in a different directory than yoy originally thought.
+**Remember to tab complete!** There is a reason the tab key is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't auto-complete it means you either have a spelling mistake or are in a different directory than yoy originally thought.
 
 ## Starting Data:
 Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample_Dir into each of your directories, each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. The files are in **FASTQ** format (see below). 
@@ -71,7 +73,17 @@ gzip Sample*/*_R1_*
 # Examine reads directly with less
 less -S Sample*/*_R1_*
 ```
+
+* Fastq file format
+Each read in a fastq file is four lines long. 
+Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
+Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As,Ts,Cs and Gs.
+Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first loine header. 
+Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
+
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
+
+I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! 
 
 * Count The Number of Raw Reads
 ```bash
@@ -80,9 +92,10 @@ zgrep -c '@HSQ' Sample*/*R1*
 # counting the lines and divide by 4
 zcat Sample*/*_R1_* | wc -l
 ```
-
 * Whats our total bp of data? (Read length x 2(paired-end) x Number of reads)
-* If we have a 5 MB genome, what is our average coverage? (Total bp/5,000,000)
+* If we have a 7 MB genome, what is our average coverage? (Total bp/7,000,000)
+
+If you completed the above calculation lets hop you have at least 10X coverage. For the most part, the higher the coverage the better off we are. If you have low coverage you'll want to do some more sequenicng and get more read data. Usually published genomes have at least 70-100X coverage.
 
 ## Read Quality Check w/ FASTQC
 manual: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
