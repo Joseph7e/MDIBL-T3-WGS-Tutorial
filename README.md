@@ -1,10 +1,7 @@
 # MDIBL-T3-WGS
 Bacterial Genome Assembly and Assessment Tutorial
 
-   Throughout this tutorial we are going through the process of *de novo* genome assembly. This process begins with raw sequencing data in the form of fastqs you would recieve from a sequencing center. We start by examing the fastqs for quality with **fastqc**. Next we trim low quality bases from our reads and remove adapter sequences with **Trimmomatic**. Once we are happy with the quality of the bases we move directly into genome assembly with **SPAdes**. This program takes our trimmed sequencing reads and provides a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. From there we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. 
-
-
-
+   Throughout this tutorial we are going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data (fastqs) exactly how you would recieve them from a standard sequencing center. We start by examing the fastqs for quality with **fastqc**. Next we trim low quality bases and remove adapter sequences form the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. This program takes our trimmed sequencing reads and provides a FASTA file, this is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. Hopefully by the end you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
 
 ## Various Resources:
 [MDIBL T3 Course Website](https://labcentral.mdibl.org/workspaces/view/5ad10ee2-cf8c-4894-a980-1172d1dec312/pages/5ad8c98a-76a8-4b42-a40d-18a4d1dec312)
@@ -17,18 +14,21 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 
 ### General Notes:
-For each program that we run there are links to the manuals, some more helpful than others. These manuals provide a thorough explanation of what exactly we are doing so be sure to skim through them. 
+For each program that we run there are links to the manuals, some more helpful than others. These manuals provide a thorough explanation of what exactly we are doing. It is important to at least skim through these manuals to examine the options. The commands we run are usually general and rely on default settings, this works great for most genomes but the options may need to be tweaked for each genome.
+
+Also note that this tutorial assumes a general understanding of the BASH environment. You should be familiar with moving around the directories and understand how to maniulate files.
+
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads.
+Your starting data is in a directory called "Sample_X" (where X donates your sample name). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. There should be two files per Sample, the forward and reverse reads. The files are in **FASTQ** format. 
 
 * Get your bearing on the server and view data
 ```bash
-# print your current working directory
+# print your current working directory. If you jst logged in you should be in your home directory (
 pwd
 # ls to view your read directory
 ls Sample*
-# use the 'tree' command
+# use the 'tree' command to view your current directory structure. Noone ever uses ths
 tree
 tree -L 2
 ```
@@ -45,8 +45,9 @@ cd mdibl-t3-2018-WGS/
 mv Sample_X Sample_X-raw_reads
 ```
 
-* Examine Raw Reads
-       - Note the extension, this data is compressed.
+* Examine the Raw Reads
+       - Note the file extension, fastq.gz, this data is compressed because these files can get large very quickly. Since they are compressed this means we either have to decompress the data (with gzip) or using variations of the typical commands to exmaine the files. Instead of 'cat' we use 'zcat', instead of grep we can use 'zgrep'. Below I show both ways.
+       
 ```bash
 # Examine the reads with zcat
 zcat Sample*/*_R1_* | more
