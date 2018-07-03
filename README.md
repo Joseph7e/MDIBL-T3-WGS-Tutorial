@@ -75,12 +75,11 @@ gzip Sample*/*_R1_*
 less -S Sample*/*_R1_*
 ```
 
-* Fastq file format
-Each read in a fastq file is four lines long. 
+* Fastq File Format - each sequencing read entry is four lines long.. 
 
     - Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
 
-    - Line 2. The next line is the actual sequencing read for your organism, a 250 bp string of As, Ts, Cs, and Gs.
+    - Line 2. The actual sequencing read for your organism, a 250 bp string of As, Ts, Cs, and Gs.
 
     - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
 
@@ -94,7 +93,7 @@ Each read in a fastq file is four lines long.
 
 * Count The Number of Raw Reads
 
-I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! 
+I always start by counting the number of reads I have for each sample. This is done to make sure we have enough data to assemble a meaningful genome in the first place. Usually the file contains millions of reads, good thing BASH is great for parsing large data files! Note that the forward and reverse reads will have the same number of entries so you only need to count one (at least they should!)
 
 ```bash
 # using grep
@@ -102,8 +101,13 @@ zgrep -c '@HSQ' Sample*/*R1*
 # counting the lines and divide by 4
 zcat Sample*/*_R1_* | wc -l
 ```
-* Whats our total bp of data? This is what we call our sequencing throughput (Read length x 2(paired-end) x Number of reads)
-* If we have a 7 MB genome, what is our average coverage? (Total bp/7,000,000)
+* Whats our total bp of data? This is what we call our sequencing throughput 
+
+(Read length x 2(paired-end) x Number of reads)
+
+* If we have a 7 MB genome, what is our average coverage? 
+
+(Total bp/7,000,000)
 
 If you completed the above calculation lets hope you have at least 10X coverage. For the most part, the higher the coverage the better off we are. If you have low coverage you'll want to do some more sequencing and get more read data. Usually published genomes have at least 70-100X coverage.
 
