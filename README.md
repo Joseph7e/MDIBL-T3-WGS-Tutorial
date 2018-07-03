@@ -21,7 +21,9 @@ For each program that we run there are links to the manuals. These manuals provi
 
 Also note that this tutorial assumes a general understanding of the BASH environment. You should be familiar with moving around the directories and understand how to manipulate files.
 
-Commands are formatted 
+Commands are formatted into the grey text boxes and can be copied and pasted. The '#' symbol indicated a comment and BASH knows to ignore these lines. 
+
+**Remember to tab complete!** There is a reason the tab key is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't autocomleting you can hit tab twice to see your file options while you continue typing your command. If the file still doesn't autocomplete it means you either have a spelling mistake or are in a different directory than yoy originally thought.
 
 ## Starting Data:
 Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different Sample_Dir into each of your directories, each represents a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. The files are in **FASTQ** format (see below). 
