@@ -188,9 +188,23 @@ grep -o "product=.*" prokka_output/PROKKA_07022018.gff | sed 's/product=//g' | s
 ```
 
 
+
+* Extract the 16S sequence from the FFN file.
+
+
+
 ![prokka_workflow](https://user-images.githubusercontent.com/18738632/42130490-e45251b6-7cb4-11e8-99ef-9579b9b7ce05.png)
 
 ![gene_annotatoion](https://user-images.githubusercontent.com/18738632/42130642-bf1fb57e-7cb8-11e8-8472-37b82dadb53e.png)
+
+
+
+## NCBI BLAST
+
+
+## Command Line BLAST
+
+* Make a BLAST db from your contig files
 
 
 ## Read Mapping w/ BWA and samtools
@@ -204,4 +218,14 @@ samtools view -@ 24 -Sb -F 4  raw_mapped.sam  | samtools sort -@ 24 - -o sorted_
 #genomeCoverageBed -ibam sorted_mapped.bam -g genome.txt > coverage.txt
 bedtools genomecov -ibam sorted_mapped.bam > coverage.out
 gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
+```
+
+## Non-target contig removal w/ Blobtools
+
+* Generate "Hits" file
+
+* RUnnning BLAST on the server
+
+
+
 ```
