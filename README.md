@@ -387,7 +387,19 @@ extract_sequences "16S ribosomal RNA" prokka_output/PROKKA_*.ffn > 16S_sequence.
 less -s 16S_sequence.fasta
 ```
 
-## NCBI BLAST
+# BLAST (Basic Local Alignment Search Tool)
+
+BLAST is one of the oldest bioinformatics tools available and is a staple for many bioinformatic analyses. If you have an unknown sequence it is a very powerful way to identify sequence simiarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). There are different 'flavors' of BLAST. **blastn** is used for searching a nucleotide query against a nucleotide reference, **blastp** is used to searching a protein query against a protein reference. etc.
+
+
+
+## NCBI Web BLAST
+
+https://blast.ncbi.nlm.nih.gov/Blast.cgi
+
+![blast_flavors](https://user-images.githubusercontent.com/18738632/42249024-d5b4a2be-7ef6-11e8-954b-e3b697876f83.png)
+
+
 
 
 
@@ -413,7 +425,7 @@ gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
 
 * Generate "Hits" file
 
-* RUnnning BLAST on the server
+* Runnning command line BLAST
 ```bash
 blobtools create -i contigs.fasta -b raw_mapped.sam -t contigs.fasta.vs.nt.cul5.1e5.megablast.out -o blob_out
 blobtools view -i blob_out.blobDB.json -r all -o blob_taxonomy
