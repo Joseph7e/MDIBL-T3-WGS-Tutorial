@@ -467,6 +467,7 @@ SAM format specifications: https://samtools.github.io/hts-specs/SAMv1.pdf
 Many programs perform read mapping. The reocmmended program depends on what you are trying to do. My favorite is 'BWA mem' which balances performance and accuracy well. **The input to the program is a referece assembly and reads to map (forward and reverse). The output is a SAM file**. By default BWA writes the SAM file to standard output, I therefore save it directly to a file. There are lots of options, please see the manual to understand what I am using.
 
 * Map Reads to your assembly
+
 ```bash
 # Step 1: Index your reference genome. This is a requirement before read mapping.
 bwa index -a bwtsw $fasta
@@ -479,6 +480,7 @@ samtools flagstat raw_mapped.sam
 ```
 
 * Construct a coverage table using samtools and other programs.
+
 ```bash
 # Remove sequencing reads that did not match to the assembly and convert the SAM to a BAM.
 samtools view -@ 24 -Sb -F 4  raw_mapped.sam  | samtools sort -@ 24 - -o sorted_mapped.bam
@@ -499,6 +501,7 @@ The first step (blobtools create) in this short pipeline takes all of our input 
 After that is complete we will use 'blobtools view' to output all the data into a human readable table. FInally we will use 'blobtools plot' to construct the blobplot visuals.
 
 * Run the blobtools pipeline.
+
 ```bash
 # Create lookup table
 blobtools create --help
@@ -544,6 +547,7 @@ grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 < 500' | wc
 ```
 
 * Also filter by coverage
+
 Keeping the command we used above I am now adding some options based on column number 5, the coverage.
 
 ```bash
@@ -562,6 +566,7 @@ At somepoint you may be happy with what you decide for a filtering criteria. Be 
 Assuming we have carefully selected our criteria we are ready to contruct a list of contigs to keep. This list will be provided to a program to construct a new filtered FASTA file.
 
 * Construct a list of contigs we want to keep.
+
  Our current table has many columns. We want just the first column which are contig headers. You will start with the same command you selected for filtering criteria and add an option to just print the first column. Notice the output name that I choose. It should reflect what we use as a filterig criteria.
  
  ```bash
