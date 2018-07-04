@@ -588,7 +588,7 @@ Assuming we have carefully selected our criteria we are ready to contruct a list
  filter_contigs_by_list.py ~/mdibl-t3-WGS/spades_assembly/contigs.fasta list_of_contigs_to_keep_len500_cov20.txt Streptomyces_A1277_filtered.fasta
  ```
  
- # DONE!
+ # FINISHED!!!!
  
  ## Afterthoughts
  
