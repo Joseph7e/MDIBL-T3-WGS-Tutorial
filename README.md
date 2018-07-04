@@ -405,6 +405,8 @@ We are going to provide the 16S sequence we just extracted from our prokka resul
 
 You can copy and paste the 16S sequence directly into the page or input the file using the web form. Next you select teh database you want to BLAST against. By default it will use the complete collection of nucleotide sequences. You can change this to contain just 16S sequences or not. Both should hopefully give us the same answer. The rest of the options can be left to default and you can hit "BLAST".
 
+When it finishes you can scroll down to see your top hits in the database. The best matches are at the top. If you see matches that have high query coverage and sequence similarty you can be fairly confident in the taxonomic assignment and you now how a rough identification of your samples genus!
+
 
 ## Command Line BLAST
 
