@@ -208,6 +208,7 @@ echo $USER
 ```
 
 * View Output Data When the assembly finishes.
+
 ```bash
 ls spades_assembly_default/
 # view FASTA file
@@ -218,7 +219,7 @@ grep '>' spades_assembly_default/contigs.fasta | head
 grep -c '>' spades_assembly_default/contigs.fasta
 ```
 
-* FASTA format
+## FASTA format
 
 The FASTA format is similar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically refereed to as a contig, which means contiguous sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome is like. We typically see a genome split into 10's to 100's of contigs for a typical run.
 
@@ -374,7 +375,7 @@ The above command does a lot. It is a good idea to break it up and examine what 
 This is a good time to explore and make use of BASH. Hopefully everyone is getting used to working in BASH so they can explore as they want. Try to count the number of lines in the GFF that contain 'CDS'. How many tRNAs did we identify. etc. etc. We will be using more of these files later on in the tutorial.
 
 
-* Extract the 16S sequence from the FFN file.
+## Extract the 16S sequence from the FFN file.
 
 The 16S sequence is a housekeeping gene coding for the large ribosomal subunit in Bacteria. It is highly conserved and found in every known Bacteria. This makes it a great tool to identiy the bacterium (which is why it is used in metabarcoding studies). This is (hopefully) one of the genes that were identified from PROKKA. It is not a protein so it won't be found in the FAA file but it should be in the FFN file. We are going to use a simple script we wrote that is avaialble on the server and this github page called "extract_sequence". **The program requires two inputs, 1.) a string to search in the headers (just like grep), 2.) the PROKKA ffn file. The program will output the sequence to the screen so be sure to save it with '>'. 
 
@@ -423,7 +424,7 @@ The only required input is a FASTA file (our contigs), the database type (nucl o
 makeblastdb -in contigs.fasta -db_type nucl -out contigs_db 
 ```
 
-* BLAST the 16S sequence against your contig database.
+## BLAST the 16S sequence against your contig database.
 
 As I mentioned BLAST has many options, too many to review here. Typically you will want to specify at least four options. The first is your query sequence, the sequence we are trying to locate in our assembly. Next is the 'db', this is our database we just created from our assembly. Third is the name of the output file, use something informative. And finally we specify the output format. There are many options but the most common is output format '6' which is a simple tab deliminted file. This output format is often the one required by external programs and is completely customizable. You can specify what sorts of columns you want to provide, default is 'qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore'. This is usually good enough but all these details can be seen in the help menu.
 
@@ -442,7 +443,7 @@ tabview 16S_vs_contigs_6.tsv
 Since this 16S sequence was derived from this assembly you should see a perfect 100% identity match spnning about 1500 nucleotdies. 
 
 
-* BLAST the entire assembly against the nt database.
+## BLAST the entire assembly against the nt database.
 
 We store a local copy of the complete nucleotide database on our server. We will be using this to provide a rough taxonomy to every sequence in our assembly and to ultimtely identify non-target contaminates (like human and other bacteria) and to confirm our species identification from the 16S BLAST. Later we will be using the output file as in input to  blobtools and to visualize this information. blobtools requires a specifically formatted BLAST file, I therefore provide a script that will run the BLAST to the programs specification. We will simply provide the script with our contigs file and it will complete the task. This is a simple script that is not much different than the example we ran above. It will automatically format a meaningfull output name. 
 
@@ -457,7 +458,9 @@ We will leave this BLAST file for now but will come back to it when we are ready
 
 
 ## Read Mapping w/ BWA and samtools
+
 BWA manual: http://bio-bwa.sourceforge.net/bwa.shtml
+
 samtools manual: http://www.htslib.org/doc/samtools-1.2.html
 
 Read Mapping refers to the process of aligning short reads to a reference sequence. This reference can be a complete genome, a transcriptome, or in our case de novo assembly. Read mapping is fundamental to many commonly used pipelines like differential expression or SNP analysis. We will be using it to calculate the average coverage of each of our contigs and to calculate the overall coverage of our genome (a requirement for genbank submission).The main output of read mapping is a Sequence Alignment Map format (SAM). The file provides information about where our sequencing reads match to our assembly and information about how it maps. There are hundreds of programs that use SAM files as a primary input. A BAM file is the binary version of a SAM, and can be converted very easily using samtools. 
@@ -565,7 +568,7 @@ Hopefully at somepoint you will be happy with what you decide for a filtering cr
 
 Assuming we have carefully selected our criteria we are ready to contruct a list of contigs to keep. This list will be provided to a program to construct a new filtered FASTA file.
 
-* Construct a list of contigs we want to keep.
+## Construct a list of contigs we want to keep.
 
  Our current table has many columns. We want just the first column which are contig headers. You will start with the same command you selected for filtering criteria and add an option to just print the first column. Notice the output name that I choose. It should reflect what we use as a filterig criteria.
  
@@ -577,7 +580,7 @@ Assuming we have carefully selected our criteria we are ready to contruct a list
  less -S list_of_contigs_to_keep_len500_cov20.txt
  ```
  
- * Filter your assembly using this new list.
+ ## Filter your assembly based on a list of contigs.
  
  I have created a script that takes three arguments. An original FASTA file, a list of headers we want to keep, and an output name for the new FASTA. Be sure to give your final file a meaningful name. Usually somehting like the species name followed by the sample/strain id.
  
