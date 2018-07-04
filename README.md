@@ -19,11 +19,11 @@ Bacterial Genome Assembly and Assessment Tutorial
 Any Questions when working through this? Email me: jlsevigny1@wildcats.unh.edu
 
 ### General Notes:
-**For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we runare general and usually execuated with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
+**For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we run are general and usually executed with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
 
 This tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
 
-Throughout this tutorial the commands you will type are formatted into the grey text boxes (don't do it when learning but they can be faithfully copied and pasted). The '#' symbol indicates a comment, BASH knows to ignore these lines. 
+Throughout this tutorial the commands you will type are formatted into the gray text boxes (don't do it when learning but they can be faithfully copied and pasted). The '#' symbol indicates a comment, BASH knows to ignore these lines. 
 
 **Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
@@ -50,7 +50,7 @@ tree -L 2
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-Important note: In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path using tab complete (which is what you should do). This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work 
+Important note: In the above command I use the "\*" character to view the Sample directory, I would normally just type out the entire path using tab complete (which is what you should do). This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work 
 
 
 * Prepare your working directory
@@ -90,7 +90,7 @@ less -S Sample*/*_R1_*
 
     - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
 
-    - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis denotes how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
+    - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. This denotes how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
 
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
@@ -127,7 +127,7 @@ alterative tools: Just use fastqc
 
 * Run Fastqc
 
-Fastqc is a program to summarize read qualities and base composition. Since we have millions of reads there is no practical way to do this by hand. We call the program to parse through the fastq files and do the hard work for us. **The input to the program is one or more fastq file(s) and the output is an html file with several figures.** The link above describes what each of the output figures are describing. I mainly focus on the first graph which visualizes our average read qualities and the last figure which shows the adapter content. Note that this program does not do anything to your data, as with the majority of the assessment tools, it mearly reads it.
+Fastqc is a program to summarize read qualities and base composition. Since we have millions of reads there is no practical way to do this by hand. We call the program to parse through the fastq files and do the hard work for us. **The input to the program is one or more fastq file(s) and the output is an html file with several figures.** The link above describes what each of the output figures are describing. I mainly focus on the first graph which visualizes our average read qualities and the last figure which shows the adapter content. Note that this program does not do anything to your data, as with the majority of the assessment tools, it merely reads it.
 
 ```bash
 # make a directory to store the output
@@ -138,7 +138,7 @@ ls fastqc_raw-reads
 # the resulting folder should contain a zipped archive and an html file, we can ignore the zipped archive which is redundant.
 ```
 
-* Transfer resulting HTML files to computer using filezilla or with the commandline on OSX/Linux.
+* Transfer resulting HTML files to computer using filezilla or with the command line on OSX/Linux.
 
 On filezilla you will need to enter the same server information when you login form the terminal. Be sure to use port 22.  
 
@@ -154,7 +154,7 @@ alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.htm
 
 * Run Trimmomatic
 
-You may have noticed from the fastqc output the some of your reads have poor qualities towards the end of the sequence, this is especially true for the reverse reads and is common for Illumina data. You may also notice that the fastqc report 'failed' for adapter content. The Trimmomtic program will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this progam much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files**. We will use these trimmed reads for our genome assembly. When you are more comfortable using BASH you can call Trimmomatic directly by using the manual or by copying the code from the provided script.
+You may have noticed from the fastqc output the some of your reads have poor qualities towards the end of the sequence, this is especially true for the reverse reads and is common for Illumina data. You may also notice that the fastqc report 'failed' for adapter content. The Trimmomtic program will be used to trim these low quality bases and to remove the adapters. I created a wrapper script called trim_script_TruSeq.sh which makes this program much easier to use. It is available on the server by calling its name, it is also available on this github repository. For this wrapper script **the input is the raw forward and reverse reads and the output will be new trimmed fastq files**. We will use these trimmed reads for our genome assembly. When you are more comfortable using BASH you can call Trimmomatic directly by using the manual or by copying the code from the provided script.
 
 ```bash
 # Run wrapper script
@@ -220,7 +220,7 @@ grep -c '>' spades_assembly_default/contigs.fasta
 
 * FASTA format
 
-The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome is like. We typically see a genome split into 10's to 100's of contigs for a typical run.
+The FASTA format is similar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically refereed to as a contig, which means contiguous sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome is like. We typically see a genome split into 10's to 100's of contigs for a typical run.
 
 In the case of SPAdes the FASTA headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the contigs are organized by length where the longest contigs are first.
 
@@ -272,7 +272,7 @@ quast.py --help
 # run the command
 quast.py contigs.fasta -o quast_results
 ```
-* View ouput files
+* View output files
 
 Most of the output files from QUAST contain the same information in different formats (tsv, txt, csv etc). Open up any of these files to see the output. Descriptions for each metric can be seen below.
 
@@ -282,7 +282,7 @@ Most of the output files from QUAST contain the same information in different fo
 manual: https://busco.ezlab.org/
 
 
-BUSCO is a program utilized to assess the completeness of a genome assembly. This program makes use of the OrthoDB set of single-copy orthologous that are found in at least 90% of all the organisms in question. There are different datasets for various taxonomic groups (Eukaryotes, Metazoa, Bacteria, Gammaproteobacteria, etc. etc.). The idea is that a newly sequenced genome should contain most of these highly conserved genes. If your genome doesn't contain a large portion of these single-copy orthologues it may indicate that your genome is not complete.
+BUSCO is a program utilized to assess the completeness of a genome assembly. This program makes use of the OrthoDB set of single-copy orthologous that are found in at least 90% of all the organisms in question. There are different datasets for various taxonomic groups (Eukaryotes, Metazoa, Bacteria, Gammaproteobacteria, etc. etc.). The idea is that a newly sequenced genome should contain most of these highly conserved genes. If your genome doesn't contain a large portion of these single-copy orthologs it may indicate that your genome is not complete.
 
 
 * BUSCO preperation
@@ -389,7 +389,7 @@ less -s 16S_sequence.fasta
 
 # BLAST (Basic Local Alignment Search Tool)
 
-BLAST is one of the oldest and most fundumental bioinformatics tools available. If you have an unknown sequence it is usually my go to program to identify sequence simiarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or remotely on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). 
+BLAST is one of the oldest and most fundamental bioinformatics tools available. If you have an unknown sequence it is usually my go to program to identify sequence simiarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or remotely on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). 
 
 There are different 'flavors' of BLAST. For example, **blastn** is used for searching a nucleotide query against a nucleotide reference, **blastp** is used to searching a protein query against a protein reference. etc. etc. These different types of BLASTs have different sorts of advantages. For example, at the protein level sequences tend to be more conserved, this means we can likely identify more distantly related sequences compared to a standard blastn. The BLAST flavor you choose is largely dependent on what sort of data you have.
 
@@ -409,6 +409,7 @@ When it finishes you can scroll down to see your top hits in the database. The b
 
 
 ## Command Line BLAST
+manual: https://www.ncbi.nlm.nih.gov/books/NBK279690/
 
 Using the command line BLAST works essentially the same as NCBI BLAST except we have more control. We can specify more options like output formats and also use our own local databases. It is also a lot more useful for pipelines and workflows since it can be automated, you don't need to open a webpage and fill out any forms. 
 
@@ -424,12 +425,12 @@ makeblastdb -in contigs.fasta -db_type nucl -out contigs_db
 
 * BLAST the 16S sequence against your contig database.
 
-As I mentioned BLAST has many options, too many to review here. Typically you will want to specify at least four options. The first is your query sequence, the sequence we are trying to locate in our assembly. Next is the 'db', this is our database we just created from our assembly. Third is the name of the output file, use something informative. And finaly we specify the output format. There are many options but the most common is output format '6' which is a simple tab deliminted file. This output format is often the one required by external programs and is completely customizable. You can specify what sorts of columns you want to provide, default is 'qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore'. This is usually good enough but all these details can be seen in the help menu.
+As I mentioned BLAST has many options, too many to review here. Typically you will want to specify at least four options. The first is your query sequence, the sequence we are trying to locate in our assembly. Next is the 'db', this is our database we just created from our assembly. Third is the name of the output file, use something informative. And finally we specify the output format. There are many options but the most common is output format '6' which is a simple tab deliminted file. This output format is often the one required by external programs and is completely customizable. You can specify what sorts of columns you want to provide, default is 'qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore'. This is usually good enough but all these details can be seen in the help menu.
 
-By default BLAST will several top hits for each input sequence (if it matches anything in the database). These hits will be organized by bitscore, which is a measure of our confidence in the match. Bitscore is a combination of match length and sequence similarity.
+If there are mutlipel hits for a single query BLAST will provide all of them by default. These hits will be organized by bitscore, which is a measure of our confidence in the match. Bitscore is a combination of match length and sequence similarity. It is up to the user (or an external program) to parse through this file and determine which hits are meaningful
 
 ```bash
-# examine the helo menu, specifically look at the section about outfmt to see the available columns with explanations
+# examine the help menu, specifically look at the section about outfmt to see the available columns with explanations.
 blastn -help
 # run BLAST
 blastn -query 16S_sequence.fasta -db contigs_db -out 16S_vs_contigs_6.tsv -outfmt 6
@@ -438,9 +439,12 @@ tabview 16S_vs_contigs_6.tsv
 
 ```
 
+Since this 16S sequence was derived from this assembly you should see a perfect 100% identity match spnning about 1500 nucleotdies. 
+
+
 * BLAST the entire assembly against the nt database.
 
-We store a local copy of the complete nucleotide database on our server. We will be using this to provide a rough taxonomy to every sequence in our assembly. We will use this information to identify non-target contaminates (like human and other bacteria) and to confirm our species identification from the 16S BLAST. Later we will be using the output file as in input to  blobtools and to visualize this information. blobtools requires a specifically formatted BLAST file, I therefore provide a script that will run the BLAST to the programs specification. We will simply provide the script with our contigs file and it will complete the task. This is a simple script that is not much different than the example we ran above. It will automatically format a meaningfull output name. 
+We store a local copy of the complete nucleotide database on our server. We will be using this to provide a rough taxonomy to every sequence in our assembly and to ultimtely identify non-target contaminates (like human and other bacteria) and to confirm our species identification from the 16S BLAST. Later we will be using the output file as in input to  blobtools and to visualize this information. blobtools requires a specifically formatted BLAST file, I therefore provide a script that will run the BLAST to the programs specification. We will simply provide the script with our contigs file and it will complete the task. This is a simple script that is not much different than the example we ran above. It will automatically format a meaningfull output name. 
 
 ```bash
 # run the scipt, note that it will automatically use nohup since it will take about 30 minutes to run
@@ -453,36 +457,125 @@ We will leave this BLAST file for now but will come back to it when we are ready
 
 
 ## Read Mapping w/ BWA and samtools
+BWA manual: http://bio-bwa.sourceforge.net/bwa.shtml
+samtools manual: http://www.htslib.org/doc/samtools-1.2.html
 
-* Full workflow
+Read Mapping refers to the process of aligning short reads to a reference sequence. This reference can be a complete genome, a transcriptome, or in our case de novo assembly. Read mapping is fundamental to many commonly used pipelines like differential expression or SNP analysis. We will be using it to calculate the average coverage of each of our contigs and to calculate the overall coverage of our genome (a requirement for genbank submission).The main output of read mapping is a Sequence Alignment Map format (SAM). The file provides information about where our sequencing reads match to our assembly and information about how it maps. There are hundreds of programs that use SAM files as a primary input. A BAM file is the binary version of a SAM, and can be converted very easily using samtools. 
+
+SAM format specifications: https://samtools.github.io/hts-specs/SAMv1.pdf
+
+Many programs perform read mapping. The reocmmended program depends on what you are trying to do. My favorite is 'BWA mem' which balances performance and accuracy well. **The input to the program is a referece assembly and reads to map (forward and reverse). The output is a SAM file**. By default BWA writes the SAM file to standard output, I therefore save it directly to a file. There are lots of options, please see the manual to understand what I am using.
+
+* Map Reads to your assembly
 ```bash
+# Step 1: Index your reference genome. This is a requirement before read mapping.
 bwa index -a bwtsw $fasta
+# Step 2: Map the reads and construct a SAM file.
 bwa mem -M -t 24 $fasta $forward $reverse > raw_mapped.sam
+# view the file with less, note that to see the data you have to scroll down past all the headers (@SQ).
+less -S raw_mapped.sam
+# Examine how many reads mapped with samtools
+samtools flagstat raw_mapped.sam
+```
+
+* Construct a coverage table using samtools and other programs.
+```bash
+# Remove sequencing reads that did not match to the assembly and convert the SAM to a BAM.
 samtools view -@ 24 -Sb -F 4  raw_mapped.sam  | samtools sort -@ 24 - -o sorted_mapped.bam
-#bioawk -c fastx '{ print $name, length($seq) }' < $fasta > genome.txt
-#genomeCoverageBed -ibam sorted_mapped.bam -g genome.txt > coverage.txt
+# Calculate per base coverage with bedtools
 bedtools genomecov -ibam sorted_mapped.bam > coverage.out
+# Calculate per contig coverage with gen_input_table.py
 gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
+# This outputs a simple file with two columns, the contig header and the average coverage.
 ```
 
 ## Non-target contig removal w/ Blobtools
+blobtools manual: https://blobtools.readme.io/docs
 
-* Generate "Hits" file
+Blobtools is a tool to visualize our genome assembly. It is also useful for filtering read and assembly datasets. **There are three main inputs to the program: 1.) Contig file (the one we used for BLAST and BWA), 2.) a 'hits' file generated from BLAST, 3.) A SAM or BAM file. The main output of the program are blobplots which plot the GC, coverage, taxonomy, and contigs lengths on a single graph.** 
 
-* Runnning command line BLAST
+The first step (blobtools create) in this short pipeline takes all of our input files and creates a lookup table that is used for plotting and constructing tables. This step does the brunt of the working, parsing the BLAST file to assign taxonomy to each of our sequences, and parsing the SAM file to calculate coverage information.
+
+After that is complete we will use 'blobtools view' to output all the data into a human readable table. FInally we will use 'blobtools plot' to construct the blobplot visuals.
+
+* Run the blobtools pipeline.
 ```bash
+# Create lookup table
+blobtools create --help
 blobtools create -i contigs.fasta -b raw_mapped.sam -t contigs.fasta.vs.nt.cul5.1e5.megablast.out -o blob_out
+# Create output table
+blobtools view --help
 blobtools view -i blob_out.blobDB.json -r all -o blob_taxonomy
+# view the table, I remove headers with grep -v and view with tabview
+grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt
+# Plot the data
+blobtools plot --help
 blobtools plot -i blob_out.blobDB.json -r genus
-
 ```
+The final table and plots can be exported to your computer to view. We will be using the table to decide which contigs to remove.
 
+![project_cherylandam-sample_lra1-contigs fasta blobdb json bestsum genus p7 span 100 blobplot spades](https://user-images.githubusercontent.com/18738632/42291330-0c6caf52-7f99-11e8-977d-4daf9321d2fe.png)
 
-## Comparative Genomics w/ Orthofinder
+The x-axis on these plots is GC content, the y-axis is the coverage (log transformed). The size of the 'blobs' are the length of the contigs. Colors represent taxonomic assignment (the -r option lets you choose which rank to view). The concept of these plots and ultimately for assembly filtering is that each organism has a unique GC content. For example Streptomyces has an average GC content of about 0.72 while other bacteria can go as low as 0.2. In addition, contamination is most likely has much lower coverage compared to the rest of your assembly. Combine that with the taxonomic assignments and you have multiple lines of evidence to identify your non-target contigs. In the plot above you can fairly easily see what contigs we plan to remove.
 
+## Filter the genome assembly:
+
+Take your time with this step. There is no exact set of commands that will work with everyones genome. When in doubt about a specific contig I tend to favor keeping it rather than removing it. I start by doing a strict length cutoff of 500 bp long contigs (some sequencing centers are more strict, not allowing any contigs < 1000 or even 5000 bp long.
+
+Column headers we will use. #2 == length, #3 == GC content, $5 == Coverage, $15 == family, $18 == genus. 
+
+I am going to take this one step at a time and construct a final contig lost ones we are happy with the cutoff values we choose. I will mainly be using awk to do this filtering, you could also do it in excel. For awk, the '-F' options sets the field seperator (\t for a tsv), next we can call individual columns using $ + column_number.
+
+* Filter by length
 
 ```bash
-orthofinder2 -f 
+# make a directory for filtering
+mkdir ~/mdibl-t3-2018-WGS/filtered_assembly
+cd ~/mdibl-t3-2018-WGS/filtered_assembly
+# copy the taxonomy table
+cp ~/~/mdibl-t3-2018-WGS/blob_taxonomy.blob_out.blobDB.table.txt ./
+# Filter by length
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | tabview -
+# You can always do the opposite to examine what you are losing, do this every time
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 < 500' | tabview -
+# You can check how many contigs are retained with the 'wc' command which counts lines.
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | wc
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 < 500' | wc
 ```
 
-https://www.biostars.org/p/123021/
+* Also filter by coverage
+```bash
+# Start with a low number and check what you will lose (I'll try 5)
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 5}' | tabview -
+# Check what I am losing by doing the opposite
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5}' | tabview -
+# Check how many we lose
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5}' | wc
+# Try a higher value
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 15}' | tabview -
+# turns out this makes no difference.
+```
+At somepoint you may be happy with what you decide for a filtering criteria. Be sure to carefully check what you are throwing away. Do any of the contigs still have the non-target taxonomy assigned? Are you losing anything that has the right taxonomy? If you notice contigs that are obviously contamination how can the filtering options be adjusted to remove these but not out targets? Do you need to add a taxonomy or GC based filter?
+
+Assuming we have carefully selected our criteria we are ready to contruct a list of contigs to keep. This list will be provided to a program to construct a new filtered FASTA file.
+
+* Construct a list of contigs we want to keep.
+ Our current table has many columns. We want just the first column which are contig headers. You will use the same command you selected for filtering criteria. NOtice the output name that I choose. It should reflect what we use as a filterig criteria.
+ 
+ ```bash
+ # use awk to constuct list, the new part is the final part of the command which will only print the first column.
+ grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 20}' | tabview -
+ grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 20' | awk -F'\t' '{print $1}' > list_of_contigs_to_keep_len500_cov20.txt
+ # view the file to make sure it is a list of contig headers
+ less -S list_of_contigs_to_keep_len500_cov20.txt
+ ```
+ 
+ * Filter your assembly using this new list.
+ 
+ I have created a script that takes three arguments. An original FASTA file, a list of headers we want to keep, and an output name for the new FASTA. Be sure to give your final file a meaningful name. Usually somehting like the species name followed by the sample/strain id.
+ 
+ ```bash
+ filter_contigs_by_list.py ~/mdibl-t3-WGS/spades_assembly/contigs.fasta list_of_contigs_to_keep_len500_cov20.txt Streptomyces_A1277_filtered.fasta
+ ```
+ 
+
