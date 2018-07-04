@@ -522,9 +522,9 @@ The x-axis on these plots is GC content, the y-axis is the coverage (log transfo
 
 Take your time with this step. There is no exact set of commands that will work with everyones genome. When in doubt about a specific contig I tend to favor keeping it rather than removing it. I start by doing a strict length cutoff of 500 bp long contigs (some sequencing centers are more strict, not allowing any contigs < 1000 or even 5000 bp long.
 
-Column headers we will use. #2 == length, #3 == GC content, $5 == Coverage, $15 == family, $18 == genus. 
+Column headers we will use. #2 == length, #3 == GC content, #5 == Coverage, #15 == family, #18 == genus. 
 
-I am going to take this one step at a time and construct a final contig lost ones we are happy with the cutoff values we choose. I will mainly be using awk to do this filtering, you could also do it in excel. For awk, the '-F' options sets the field seperator (\t for a tsv), next we can call individual columns using $ + column_number.
+I am going to take this one step at a time and construct a final contig list ones we are happy with the cutoff values we choose. I will mainly be using 'awk' to do this filtering, you could also do it in excel. For awk, the '-F' options sets the field seperator (\t for a tsv), next we can call individual columns using $ + column_number.
 
 * Filter by length
 
@@ -544,6 +544,8 @@ grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 < 500' | wc
 ```
 
 * Also filter by coverage
+Keeping the command we used above I am now adding some options based on column number 5, the coverage.
+
 ```bash
 # Start with a low number and check what you will lose (I'll try 5)
 grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 5}' | tabview -
@@ -560,7 +562,7 @@ At somepoint you may be happy with what you decide for a filtering criteria. Be 
 Assuming we have carefully selected our criteria we are ready to contruct a list of contigs to keep. This list will be provided to a program to construct a new filtered FASTA file.
 
 * Construct a list of contigs we want to keep.
- Our current table has many columns. We want just the first column which are contig headers. You will use the same command you selected for filtering criteria. NOtice the output name that I choose. It should reflect what we use as a filterig criteria.
+ Our current table has many columns. We want just the first column which are contig headers. You will start with the same command you selected for filtering criteria and add an option to just print the first column. Notice the output name that I choose. It should reflect what we use as a filterig criteria.
  
  ```bash
  # use awk to constuct list, the new part is the final part of the command which will only print the first column.
@@ -578,4 +580,15 @@ Assuming we have carefully selected our criteria we are ready to contruct a list
  filter_contigs_by_list.py ~/mdibl-t3-WGS/spades_assembly/contigs.fasta list_of_contigs_to_keep_len500_cov20.txt Streptomyces_A1277_filtered.fasta
  ```
  
+ # DONE!
+ 
+ ## Afterthoughts
+ 
+ We should now have a cleaned genome assembly that is ready for downstream analyses like submission to NCBI and comparative genomics. 
+ 
+It is a good idea to check how the filtering affected your final assembly. Run QUAST again. What is your total genome size? Is it in the range of previously published genomes. Run BUSCO again. Do you get the same results? How does it differ? Reconstruct a blobplot using your new filtered dataset. Does it look clean? Are there still some contigs that look like they shoudl be removed?
 
+Depending on how you answer these questions you may have to go back and adjust your filtering criteria.
+ 
+## Plot showing the N50 and genome sizes of Streptomyces genomes on genbank.
+![streptomyces_genome_paper](https://user-images.githubusercontent.com/18738632/42292594-9b1a437e-7fa1-11e8-8a2e-b39fc9cfdcaf.jpg)
