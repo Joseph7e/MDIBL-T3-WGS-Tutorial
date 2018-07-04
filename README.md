@@ -3,7 +3,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 ## General Overview
 
-   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data, exactly how you would recieve it from a standard sequencing center (in fastq format). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. The SPAdes pipeline does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file as output, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and for comparative genomics with previously published genomes.
+   Throughout this tutorial we will be going through the process of *de novo* genome assembly. This workflow begins with raw sequencing data you would recieve from a standard sequencing center (in fastq format). We start by examining the fastqs for quality with **fastqc**. Next we trim the low quality bases and remove adapter sequences from the reads with **Trimmomatic**. Once that is done we move directly into genome assembly with **SPAdes**. The SPAdes pipeline does the brunt of the work, taking our trimmed sequencing reads as input and providing a FASTA file as output, this FASTA file is our genome assembly. From here we assess the genome assembly for contiguity using **QUAST** and for content/comleteness with **BUSCO**. Finally we use several different programs including **BLAST**, **BWA**, and **blobtools**, to filter the genome for potential contaminates/non-target sequences. At this point you should have a novel genome that is ready for submission to NCBI and/or for comparative genomics with previously published genomes.
 
 ## Various Resources:
 [MDIBL T3 Course Website](https://labcentral.mdibl.org/workspaces/view/5ad10ee2-cf8c-4894-a980-1172d1dec312/pages/5ad8c98a-76a8-4b42-a40d-18a4d1dec312)
@@ -189,7 +189,7 @@ With our trimmed reads in hand are now ready to assemble our genomes (check out 
 ```bash
 # examine the help menu
 spades.py --help
-# using "nohup some_command &" allows you to run the job on the server while your laptop is closed/off 
+# run spades with the forward, reverse, and unpaired reads.
 nohup spades.py -1 trimmed_reads/paired_forward.fastq.gz -2 trimmed_reads/paired_reverse.fastq.gz -s trimmed_reads/unpaired_forward.fastq.gz -s trimmed_reads/unpaired_reverse.fastq.gz -o spades_assembly_default -t 24 &
 ```
 
@@ -220,19 +220,19 @@ grep -c '>' spades_assembly_default/contigs.fasta
 
 * FASTA format
 
-The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome in question. We typically see a genome split into 10's to 100's of contigs for a typical run.
+The FASTA format is similiar to the FASTQ format except it does not include quality information. Each sequence is also deliminated by a '>' symbol instead of a '@'. In addition, all the sequences will be much larger (since they were assembled). Instead of all the sequencing being 250 bp they could be the size of an entire genome!  Each of the sequence entries in the FASTA file are typically reffered to as a contig, which means contigious sequence. In an ideal world the assembler would work perfectly and we would have one contig per chromosome in the genome. In the case of a typical bacterium (if there is such a thing) this would mean one circular chromosome and maybe a plasmid. So if the assembly worked perfect we would see two contigs in our FASTA file. However, this is very rarely the case (unless we add some sort of long-read technology like pacbio or nanopore sequencing). How fragmented your reconstructed genome is usually depends on how many reads you put into your assembler, how large the genome is, and what the architecture and complexity of the genome is like. We typically see a genome split into 10's to 100's of contigs for a typical run.
 
-In the case of SPAdes the contig headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the contigs are organized by length where the longest contigs are first.
+In the case of SPAdes the FASTA headers are named in a common format. Something like "NODE_1_length_263127_cov_73.826513". The first field is a unique name for the contig (just a numerical value), the next field is the length of the sequence, and the last field is the kmer coverage of that contig (this is different than read coverage which NCBI submissions require). Furthermore, the contigs are organized by length where the longest contigs are first.
 
 * Clean up Spades directory.
 
 When you listed the SPAdes directory you could see that it makes a lot of output folders, all of which are explained in the manual. We really only 'care' about the contigs.fasta file and the spades.log. The spades.log is important because it includes details about how exactly we ran the assembly. If you ever wanted to reproduce your assembly this file might come in handy. The rest of the files can be deleted, if we ever need them you can always use the spades.log to rerun the analysis.
 
-We are going to proceed to remove these unwanted files. While our server has a lot of storage it is still a good idea to clean up after yourself. With hundreds of users even small files can add up to take up a lot of storage. **Remember if you delete a file using the 'rm' command it is gone forever, there is no way to get it back, there is no recover from trash bin, so be careful!**
+We are going to proceed to remove these unwanted files. **Remember if you delete a file using the 'rm' command it is gone forever, there is no way to get it back, there is no recover from trash bin, so be careful!**
 
 
 ```bash
-# There are many ways to do this, proceed however you are comfortable. I am going to move the files I want to keep out of the directory, delete everything else with 'rm' then move my files back in. Alternatively you could remove unwanted files one at a time.
+# There are many ways to do this, proceed however you are comfortable. I am going to move the files I want to keep out of the directory, delete everything else in the directory with 'rm' then move my files back in. Alternatively you could just remove unwanted files one at a time.
 # Move into the spades directory
 cd spades_spades_assembly_default/
 # move the files we want to keep back one directory
@@ -261,9 +261,9 @@ We are also going to use BLAST to identify our organisms. Up to this point you p
 manual: http://quast.bioinf.spbau.ru/manual.html
 
 
-QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly. How well was the genome reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? How large is your genome assembly? 
+QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly, how well the genome was reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? Quast also gives us some useful information like how many base pairs our genome assembly is (total genome size).
 
-QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of each contig and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers or different options you may use. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
+QUAST has many functionalities which we will explore later on in the tutorial, for now we are going to use it in its simplest form. It essentially just keeps track of the length of each contig and provides basic statistics. This type of information is something you would typically provide in a publication or to assess different assemblers/options you may use. **The input to the program is the genome assembly FASTA and the output are various tables and a html/pdf you can export and view.**
 
 * Run Quast
 ```bash
@@ -389,7 +389,9 @@ less -s 16S_sequence.fasta
 
 # BLAST (Basic Local Alignment Search Tool)
 
-BLAST is one of the oldest bioinformatics tools available and is a staple for many bioinformatic analyses. If you have an unknown sequence it is a very powerful way to identify sequence simiarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). There are different 'flavors' of BLAST. **blastn** is used for searching a nucleotide query against a nucleotide reference, **blastp** is used to searching a protein query against a protein reference. etc.
+BLAST is one of the oldest and most fundumental bioinformatics tools available. If you have an unknown sequence it is usually my go to program to identify sequence simiarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or remotely on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). 
+
+There are different 'flavors' of BLAST. For example, **blastn** is used for searching a nucleotide query against a nucleotide reference, **blastp** is used to searching a protein query against a protein reference. etc. etc. These different types of BLASTs have different sorts of advantages. For example, at the protein level sequences tend to be more conserved, this means we can likely identify more distantly related sequences compared to a standard blastn. The BLAST flavor you choose is largely dependent on what sort of data you have.
 
 
 
@@ -399,13 +401,53 @@ https://blast.ncbi.nlm.nih.gov/Blast.cgi
 
 ![blast_flavors](https://user-images.githubusercontent.com/18738632/42249024-d5b4a2be-7ef6-11e8-954b-e3b697876f83.png)
 
+We are going to provide the 16S sequence we just extracted from our prokka results and BLAST it against the complete set of reference nucleotide sequences (nt database) on NCBI in an attempt to identify its species origin. The nt database comprises all the sequences that have been submitted to genbank so if the species has been sequenced before we have a good chance of identifying the sequence. To start we need to click on the 'blastn' option from the link above, this is because we want to blast a nucleotide query sequence against a nucleotide database.
 
-
+You can copy and paste the 16S sequence directly into the page or input the file using the web form. Next you select teh database you want to BLAST against. By default it will use the complete collection of nucleotide sequences. You can change this to contain just 16S sequences or not. Both should hopefully give us the same answer. The rest of the options can be left to default and you can hit "BLAST".
 
 
 ## Command Line BLAST
 
+Using the command line BLAST works essentially the same as NCBI BLAST except we have more control. We can specify more options like output formats and also use our own local databases. It is also a lot more useful for pipelines and workflows since it can be automated, you don't need to open a webpage and fill out any forms. 
+
+As a quick example for how BLAST works we will use the same 16S_sequence and BLAST it against our genome assembly.  Before we begin we will make a database out of our contig assembly. This is done to construct a set of files that BLAST can use to speed up its sequence lookup. In the end it means we have to wait less time for our results.
+
 * Make a BLAST db from your contig files
+
+The only required input is a FASTA file (our contigs), the database type (nucl or prot), and an output name for the new database.
+
+```bash
+makeblastdb -in contigs.fasta -db_type nucl -out contigs_db 
+```
+
+* BLAST the 16S sequence against your contig database.
+
+As I mentioned BLAST has many options, too many to review here. Typically you will want to specify at least four options. The first is your query sequence, the sequence we are trying to locate in our assembly. Next is the 'db', this is our database we just created from our assembly. Third is the name of the output file, use something informative. And finaly we specify the output format. There are many options but the most common is output format '6' which is a simple tab deliminted file. This output format is often the one required by external programs and is completely customizable. You can specify what sorts of columns you want to provide, default is 'qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore'. This is usually good enough but all these details can be seen in the help menu.
+
+By default BLAST will several top hits for each input sequence (if it matches anything in the database). These hits will be organized by bitscore, which is a measure of our confidence in the match. Bitscore is a combination of match length and sequence similarity.
+
+```bash
+# examine the helo menu, specifically look at the section about outfmt to see the available columns with explanations
+blastn -help
+# run BLAST
+blastn -query 16S_sequence.fasta -db contigs_db -out 16S_vs_contigs_6.tsv -outfmt 6
+# view the results
+tabview 16S_vs_contigs_6.tsv
+
+```
+
+* BLAST the entire assembly against the nt database.
+
+We store a local copy of the complete nucleotide database on our server. We will be using this to provide a rough taxonomy to every sequence in our assembly. We will use this information to identify non-target contaminates (like human and other bacteria) and to confirm our species identification from the 16S BLAST. Later we will be using the output file as in input to  blobtools and to visualize this information. blobtools requires a specifically formatted BLAST file, I therefore provide a script that will run the BLAST to the programs specification. We will simply provide the script with our contigs file and it will complete the task. This is a simple script that is not much different than the example we ran above. It will automatically format a meaningfull output name. 
+
+```bash
+# run the scipt, note that it will automatically use nohup since it will take about 30 minutes to run
+blob_blast.sh contigs.fasta
+# view the reuslts, the last column is the species identification
+tabview contigs.fasta.vs.nt.cul5.1e5.megablast.out
+```
+
+We will leave this BLAST file for now but will come back to it when we are ready to run blobtools. blobtools requires two input files, the BLAST results and a mapping file (SAM/BAM) which we will generate next.
 
 
 ## Read Mapping w/ BWA and samtools
