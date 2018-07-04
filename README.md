@@ -28,7 +28,7 @@ Throughout this tutorial the commands you will type are formatted into the grey 
 **Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
 ## Starting Data:
-Your starting data is in a directory called "Sample_X" (where X donates your sample name). I placed a different set of Sample data into each of your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
+Your starting data is in a directory called "Sample_X" (where X denotes your sample name). I placed a different set of Sample data into each of your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below). 
 
 * Get your bearing on the server.
 
@@ -50,7 +50,7 @@ tree -L 2
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
 
 
-Quick note: **In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path using tab complete (which is what you should do). This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work** 
+Important note: In the above command I use the "\*" charcter to view the Sample directory, I would normally just type out the entire path using tab complete (which is what you should do). This wildcard will match any string of characters. I use this because everyone will have a different Sample name. To make this tutorial as general as possible I need to use these wildcards throughout the tutorial. In addition I may use Sample_X instead of Sample_\*. In these cases be sure to type out your complete sample name!, the wildcards probably won't work 
 
 
 * Prepare your working directory
@@ -66,7 +66,7 @@ cd mdibl-t3-2018-WGS/
 mv Sample_X Sample_X-raw_reads
 ```
 
-* Examine the Raw Reads
+## Examine the Raw Reads
 
 Note the file extension - fastq.**gz**. Since these files are usually pretty big it is standard to recieve them compressed. To view these files ourselves (which you normally wouldn't do) you either have to decompress the data with gzip or by using variations of the typical commands. Instead of 'cat' we use 'zcat', instead of grep we can use 'zgrep'. Below I show both ways.
        
@@ -84,13 +84,13 @@ less -S Sample*/*_R1_*
 
 * Fastq File Format - each sequencing read entry is four lines long.. 
 
-    - Line 1. Always begins with an '@' symbol and donates the header. This is unique to each sequence and has info about the sequncing run. 
+    - Line 1. Always begins with an '@' symbol and denotes the header. This is unique to each sequence and has info about the sequncing run. 
 
     - Line 2. The actual sequencing read for your organism, a 250 bp string of As, Ts, Cs, and Gs.
 
     - Line 3. Begins with a '+' symbol, this is the header for the read quality. Usually the same as the first line header. 
 
-    - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis donates how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
+    - Line 4. Next are ascii symbols representing the quality score (see table below) for each base in your sequence. TThis denotes how confident we are in the base call for each respective nucleotide. This line is the same length as the sequencing line since we have a quality score for each and every base of the sequence. 
 
 ![rawilluminadatafastqfiles](https://user-images.githubusercontent.com/18738632/42129269-49b8dace-7c8e-11e8-86e7-069df9028447.png)
 
