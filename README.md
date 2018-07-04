@@ -546,7 +546,7 @@ grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | wc
 grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 < 500' | wc
 ```
 
-* Also filter by coverage
+* Also filter by coverage.
 
 Keeping the command we used above I am now adding some options based on column number 5, the coverage.
 
@@ -561,7 +561,7 @@ grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | aw
 grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 15}' | tabview -
 # turns out this makes no difference.
 ```
-At somepoint you may be happy with what you decide for a filtering criteria. Be sure to carefully check what you are throwing away. Do any of the contigs still have the non-target taxonomy assigned? Are you losing anything that has the right taxonomy? If you notice contigs that are obviously contamination how can the filtering options be adjusted to remove these but not out targets? Do you need to add a taxonomy or GC based filter?
+Hopefully at somepoint you will be happy with what you decide for a filtering criteria. Be sure to carefully check what you are throwing away. Do any of the contigs still have the non-target taxonomy assigned? Are you losing anything that has the right taxonomy? If you notice contigs that are obviously contamination how can the filtering options be adjusted to remove these but not out targets? Do you need to add a taxonomy or GC based filter?
 
 Assuming we have carefully selected our criteria we are ready to contruct a list of contigs to keep. This list will be provided to a program to construct a new filtered FASTA file.
 
