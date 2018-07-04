@@ -579,7 +579,7 @@ Assuming we have carefully selected our criteria we are ready to contruct a list
  # view the file to make sure it is a list of contig headers
  less -S list_of_contigs_to_keep_len500_cov20.txt
  ```
- 
+
  ## Filter your assembly based on a list of contigs.
  
  I have created a script that takes three arguments. An original FASTA file, a list of headers we want to keep, and an output name for the new FASTA. Be sure to give your final file a meaningful name. Usually somehting like the species name followed by the sample/strain id.
