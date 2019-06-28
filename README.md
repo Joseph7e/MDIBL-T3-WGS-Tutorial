@@ -1,6 +1,8 @@
 # MDIBL-T3-WGS
 Bacterial Genome Assembly and Assessment Tutorial
 
+![alt text](https://www.digitalcheck.com/wp-content/uploads/2018/08/old-compouter-zenith-terminal-400px.jpg)
+
 **This site will be continuously updated throughout the week.**
 
 ## General Overview
