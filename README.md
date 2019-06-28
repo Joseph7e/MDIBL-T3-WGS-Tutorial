@@ -12,7 +12,7 @@ Bacterial Genome Assembly and Assessment Tutorial
 
 [Beginning Bash Cheatsheet](https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners)
 
-[More BASH tutorials](http://nhinbre.org/wp-content/uploads/2015/06/intro_worksheet-1.pdf)
+[BASH tutorials](http://nhinbre.org/wp-content/uploads/2015/06/intro_worksheet-1.pdf)
 
 [Filezilla Download](https://filezilla-project.org/download.php)
 
