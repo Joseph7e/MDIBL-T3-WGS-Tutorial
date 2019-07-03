@@ -608,6 +608,15 @@ Assuming we have carefully selected our criteria we are ready to construct a lis
  filter_contigs_by_list.py ~/mdibl-t3-WGS/spades_assembly/contigs.fasta list_of_contigs_to_keep_len500_cov20.txt Streptomyces_A1277_filtered.fasta
  ```
  
+ ## Average coverage from Blobtools table.
+
+```
+# Coverage from blob table
+# remove the initial grep if you want the average coverage for all the contigs
+grep -f list_to_keep.txt blob_taxonomy.blob_out.blobDB.table.txt | awk '{w = w + $2; e = e + $5 * $2;} END {print e/w}'
+```
+ 
+ 
  # FINISHED!!!!
  
  ## Afterthoughts
