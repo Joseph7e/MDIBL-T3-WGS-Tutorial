@@ -324,9 +324,9 @@ ls /usr/local/src/augustus-3.2.2/rc/
 
 ```bash
 #look at the help menu
-busco --help
+run_BUSCO.py --help
 # run busco
-nohup busco -i contigs.fasta -o busco_output -m genome -l /usr/local/src/augustus-3.2.2/lineages/bacteria_odb9/ -c 1 &
+nohup run_BUSCO.py -i contigs.fasta -o busco_output -m genome -l /usr/local/src/augustus-3.2.2/lineages/bacteria_odb9/ -c 1 &
 # note: the -c command is the number of threads. A bug in BLAST prevents consistent results with greater than 1 for this option.
 ```
 
