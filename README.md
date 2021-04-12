@@ -9,6 +9,7 @@ Whole-Genome Assembly and Assessment Tutorial
 
 * [Getting Started](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#general-notes)  
     * [BASH Tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial)
+    * [Reproducibility](https://github.com/ToniWestbrook/repeatfs)
     * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) 
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
