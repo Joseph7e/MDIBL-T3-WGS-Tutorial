@@ -7,15 +7,14 @@ Whole-Genome Assembly and Assessment Tutorial
 
 ## Table of Contents
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
-       - Datasets provided on the server
-       - Publically available datasets
+* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)  
+    * Datasets provided on the server
+    * Publically available datasets
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
+    * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality) - w/FASTQC
 
-    * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality)
-
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
 * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
@@ -82,11 +81,6 @@ cd mdibl-t3-2019-WGS/
 # make the sample directory name more meaningful
 mv Sample_X Sample_X-raw_reads
 ```
-
-## Publicly available data
-
-
-
 
 ## Sequencing Read Assessment
 
