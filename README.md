@@ -1,7 +1,7 @@
 # MDIBL-T3-WGS
 Whole-Genome Assembly and Assessment Tutorial
 
-![alt text](https://www.digitalcheck.com/wp-content/uploads/2018/08/old-compouter-zenith-terminal-400px.jpg)
+![alt text]https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/diagram-WGS.jpeg)
 
 **This site will be continuously updated throughout the week.**
 
