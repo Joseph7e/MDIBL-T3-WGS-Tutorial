@@ -27,31 +27,25 @@ Whole-Genome Assembly and Assessment Tutorial
 * [Genome Annotation](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-annotation) w/PROKKA
 
 * [Identification of the Organism](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#organism-identification)
-    *[BLAST](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#blast)
+    * [BLAST](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#blast)
 
 * [Read Mapping](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#read-mapping) w/BWA and Samtools
 
 * [Filtering the Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#non-target-contig-removal) w/Blobtools
 
 * [Next Steps](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#afterthoughts) w/Blobtools
+    * Compartaive genomics
 
 ## General Notes:
 **For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we run are general and usually executed with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
 
-This tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
 
 Throughout this tutorial the commands you will type are formatted into the gray text boxes (don't do it when learning but they can be faithfully copied and pasted). The '#' symbol indicates a comment, BASH knows to ignore these lines. 
-
-**Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work 10X faster (I timed it). Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
 
 This tutorial assumes a general understanding of the BASH environment. **You should be familiar with moving around the directories and understand how to manipulate files**.
 
-See the BASH tutorial to get started.
-
-https://github.com/Joseph7e/HCGS-BASH-tutorial
-
-Throughout this tutorial the commands you will type are formatted into the gray text boxes (don't do it when learning but they can be faithfully copied and pasted). The '#' symbol indicates a comment, BASH knows to ignore these lines. 
+See the BASH tutorial and primers to get started. https://github.com/Joseph7e/HCGS-BASH-tutorial
 
 **Remember to tab complete!** There is a reason the tab is my favorite key. It prevents spelling errors and allows you to work much faster. Remember if a filename isn't auto-completing you can hit tab twice to see your files while you continue typing your command. If a file doesn't auto-complete it means you either have a spelling mistake, are in a different directory than you originally thought, or that it doesn't exist.
 
@@ -68,11 +62,6 @@ Prepare Library           |  Sequence DNA
 <img src="https://jef.works//assets/blog/librarystructure.png" width="520">  |  <img src="https://github.com/Joseph7e/HCGS-Genomics-Tutorial/blob/master/hiseq.png?raw=true" width="320">
 
 
-Your starting data is found within a shared directory within your group folder (one directory level up). To start we will move a set of Sample data into your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below).
-
-
-
-## Starting Data:
 Your starting data is found within a shared directory within your group folder (one directory level up). To start we will move a set of Sample data into your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below).
 
 #### Get your bearing on the server.
