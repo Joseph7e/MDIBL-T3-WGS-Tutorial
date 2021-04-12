@@ -36,7 +36,7 @@ Whole-Genome Assembly and Assessment Tutorial
 * [Filtering the Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#non-target-contig-removal) w/Blobtools
 
 * [What's Next?](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#afterthoughts)
-    * [Genome Visualization](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial)
+    * [Genome Visualization](https://github.com/Joseph7e/genome-visualization)
     * [Submission to NCBI](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial)
     * [Comparative Genomics](https://github.com/Joseph7e/HCGS-Comparative-Genomics)
 
@@ -688,6 +688,10 @@ grep -f list_to_keep.txt blob_taxonomy.blob_out.blobDB.table.txt | awk '{w = w +
 It is a good idea to check how the filtering affected your final assembly. Run QUAST again. What is your total genome size? Is it in the range of previously published genomes. Run BUSCO again. Do you get the same results? How does it differ? Reconstruct a blobplot using your new filtered data set. Does it look clean? Are there still some contigs that look like they should be removed?
 
 Depending on how you answer these questions you may have to go back and adjust your filtering criteria.
- 
+
+## Genome visualization
+
+![alt text](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/genome-visual.png)
+
 ## Plot showing the N50 and genome sizes of Streptomyces genomes on genbank.
 ![streptomyces_genome_paper](https://user-images.githubusercontent.com/18738632/42292594-9b1a437e-7fa1-11e8-8a2e-b39fc9cfdcaf.jpg)
