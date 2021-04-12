@@ -14,9 +14,9 @@ Whole-Genome Assembly and Assessment Tutorial
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
     * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality) - w/FASTQC
 
-* [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/Trimmomatic
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/SPAdes
 
 * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
@@ -218,7 +218,8 @@ Similar to above, you can run FASTQC again with your new trimmed reads. Comparin
 
 You can also count the number of reads for each of your files like you did for the raw reads. How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
 
-## Genome Assembly w/ SPAdes
+## Genome Assembly
+program: SPAdes
 manual: http://cab.spbu.ru/software/spades/
 
 alternative tools: [ABySS](http://www.bcgsc.ca/platform/bioinfo/software/abyss), [MaSuRCA](http://masurca.blogspot.com/)
