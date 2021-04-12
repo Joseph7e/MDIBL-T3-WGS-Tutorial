@@ -246,6 +246,11 @@ Similar to above, you can run FASTQC again with your new trimmed reads. Comparin
 You can also count the number of reads for each of your files like you did for the raw reads. How does this compare to the original count? What percentage of your reads did you lose? How many reads are unpaired?
 
 ## Genome Assembly
+
+
+<img src="https://www.genome.gov/sites/default/files/tg/en/illustration/shotgun_sequencing.jpg">
+
+
 program: SPAdes
 manual: http://cab.spbu.ru/software/spades/
 
