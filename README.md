@@ -13,7 +13,7 @@ Whole-Genome Assembly and Assessment Tutorial
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
 
-       - [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#read-quality-check-w/-fastqc)
+    * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality)
 
 * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
@@ -146,7 +146,7 @@ echo "Total_bps / 7000000" | bc
 
 If you completed the above calculation lets hope you have at least 10X coverage. For the most part, the higher the coverage the better off we are. If you have low coverage you'll want to do some more sequencing and get more read data. Usually published genomes have at least 70-100X coverage.
 
-## Read Quality
+## Examine Read Quality
 program: FASTQC  
 manual: https://www.bioinformatics.babraham.ac.uk/projects/fastqc/
 
