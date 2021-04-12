@@ -12,19 +12,26 @@ Whole-Genome Assembly and Assessment Tutorial
     * Publically available datasets
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
+    * [FASTQ file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fastq-file-format) - w/FASTQC
     * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality) - w/FASTQC
 
 * [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/Trimmomatic
 
 * [Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/SPAdes
+    * [FASTA file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fasta-format)
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Genome Assessment](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assessment
+    * [Genome Structure (Contiguity)](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-structure-assessment) - w/ QUAST
+    * [Expected Gene Content](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-content-assessment) - w/ BUSCO
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Genome Annotation](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-annotation) w/PROKKA
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Identification of the Organism](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#organism-identification)
+    *[BLAST](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#blast)
 
+* [Read Mapping](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#read-mapping) w/BWA and Samtools
 
+* [Filtering the Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#read-mapping) w/Blobtools
 
 ## General Notes:
 **For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we run are general and usually executed with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
@@ -38,7 +45,7 @@ Throughout this tutorial the commands you will type are formatted into the gray 
 ## Starting Data:
 Your starting data is found within a shared directory within your group folder (one directory level up). To start we will move a set of Sample data into your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below).
 
-* Get your bearing on the server.
+#### Get your bearing on the server.
 
 It's hard to know where your going if you don't know where you are. When I am working on the server I constantly type 'ls' and 'pwd' to make sure I am where I think I am. You should too!
 
@@ -98,7 +105,8 @@ gzip Sample*/*_R1_*
 less -S Sample*/*_R1_*
 ```
 
-* Fastq File Format - each sequencing read entry is four lines long.. 
+#### Fastq File Format
+Each sequencing read entry is four lines long.. 
 
     - Line 1. Always begins with an '@' symbol and denotes the header. This is unique to each sequence and has info about the sequencing run. 
 
@@ -300,7 +308,8 @@ Now that are initial spades assembly is completed we can move on to genome asses
 We are also going to use BLAST to identify our organisms. Up to this point you probably don't know what it is.
 
 
-## Genome Structure Assessment w/ QUAST
+## Genome Structure Assessment
+program: QUAST
 manual: http://quast.bioinf.spbau.ru/manual.html
 
 QUAST is a genome assembly assessment tool to look at the contiguity of a genome assembly, how well the genome was reconstructed. Did you get one contig representing your entire genome? Or did you get thousands of contigs representing a highly fragmented genome? Quast also gives us some useful information like how many base pairs our genome assembly is (total genome size).
@@ -371,7 +380,8 @@ less -S run_busco_output/full_table_busco_output.tsv
 ls run_busco_output/single_copy_busco_sequences/
 ```
 
-## Genome Annotation w/ PROKKA
+## Genome Annotation
+program: PROKKA
 manual: https://github.com/tseemann/prokka
 
 alternative tools: [NCBI PGA](https://www.ncbi.nlm.nih.gov/genbank/genomesubmit_annotation/), [Glimmer](https://ccb.jhu.edu/software/glimmer/)
@@ -416,8 +426,9 @@ The above command does a lot. It is a good idea to break it up and examine what 
 
 This is a good time to explore and make use of BASH. Hopefully everyone is getting used to working in BASH so they can explore as they want. Try to count the number of lines in the GFF that contain 'CDS'. How many tRNAs did we identify. etc. etc. We will be using more of these files later on in the tutorial.
 
+# Organism Identification
 
-## Extract the 16S sequence from the FFN file.
+### Extract the 16S sequence from the FFN file.
 
 The 16S sequence is a housekeeping gene coding for the large ribosomal subunit in Bacteria. It is highly conserved and found in every known Bacteria. This makes it a great tool to identity the bacterium (which is why it is used in metabarcoding studies). This is (hopefully) one of the genes that were identified from PROKKA. It is not a protein so it won't be found in the FAA file but it should be in the FFN file. We are going to use a simple script we wrote that is available on the server and this github page called "extract_sequence". **The program requires two inputs, 1.) a string to search in the headers (just like grep), 2.) the PROKKA ffn file. The program will output the sequence to the screen so be sure to save it with '>'. 
 
@@ -430,9 +441,9 @@ extract_sequences "16S ribosomal RNA" prokka_output/PROKKA_*.ffn > 16S_sequence.
 less -S 16S_sequence.fasta
 ```
 
-# BLAST (Basic Local Alignment Search Tool)
+# BLAST
 
-BLAST is one of the oldest and most fundamental bioinformatic tools available. If you have an unknown sequence it is usually my go to program to identify sequence similarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or remotely on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). 
+BLAST (Basic Local Alignment Search Tool) is one of the oldest and most fundamental bioinformatic tools available. If you have an unknown sequence it is usually my go to program to identify sequence similarity to a given reference set. At the heart of many programs, like PROKKA and BUSCO, they use BLAST as a primary tool to identify sequence homology. It can be run locally on the server or remotely on NCBI using their web server, we will go through both using simple functionality and examples. Keep in mind that this program has options that span books (literally). 
 
 There are different 'flavors' of BLAST. For example, **blastn** is used for searching a nucleotide query against a nucleotide reference, **blastp** is used to searching a protein query against a protein reference. etc. etc. These different types of BLASTs have different sorts of advantages. For example, at the protein level sequences tend to be more conserved, this means we can likely identify more distantly related sequences compared to a standard blastn. The BLAST flavor you choose is largely dependent on what sort of data you have.
 
@@ -499,7 +510,7 @@ tabview contigs.fasta.vs.nt.cul5.1e5.megablast.out
 We will leave this BLAST file for now but will come back to it when we are ready to run blobtools. blobtools requires two input files, the BLAST results and a mapping file (SAM/BAM) which we will generate next.
 
 
-## Read Mapping w/ BWA and samtools
+## Read Mapping
 
 BWA manual: http://bio-bwa.sourceforge.net/bwa.shtml
 
@@ -536,7 +547,8 @@ gen_input_table.py  --isbedfiles $fasta coverage.out >  coverage_table.tsv
 # This outputs a simple file with two columns, the contig header and the average coverage.
 ```
 
-## Non-target contig removal w/ Blobtools
+## Non-target contig removal
+program: blobtools
 blobtools manual: https://blobtools.readme.io/docs
 
 Blobtools is a tool to visualize our genome assembly. It is also useful for filtering read and assembly data sets. **There are three main inputs to the program: 1.) Contig file (the one we used for BLAST and BWA), 2.) a 'hits' file generated from BLAST, 3.) A SAM or BAM file. The main output of the program are blobplots which plot the GC, coverage, taxonomy, and contigs lengths on a single graph.** 
