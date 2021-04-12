@@ -7,10 +7,9 @@ Whole-Genome Assembly and Assessment Tutorial
 
 ## Table of Contents
 
-* [Getting Started](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)  
-    * [BASH tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial)
-    * Datasets provided on the server
-    * Publically available datasets
+* [Getting Started](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#general-notes)  
+    * [BASH Tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial)
+    * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) 
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
     * [FASTQ file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fastq-file-format)
