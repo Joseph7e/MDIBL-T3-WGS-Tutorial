@@ -12,12 +12,12 @@ Whole-Genome Assembly and Assessment Tutorial
     * Publically available datasets
 
 * [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
-    * [FASTQ file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fastq-file-format) - w/FASTQC
+    * [FASTQ file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fastq-file-format)
     * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality) - w/FASTQC
 
-* [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/Trimmomatic
+* [Adapter and Quality Trimming](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#adapter-and-quality-trimming) - w/Trimmomatic
 
-* [Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/SPAdes
+* [Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assembly) - w/SPAdes
     * [FASTA file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fasta-format)
 
 * [Genome Assessment](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assessment)
