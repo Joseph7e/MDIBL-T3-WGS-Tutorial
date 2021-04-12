@@ -13,7 +13,7 @@ Whole-Genome Assembly and Assessment Tutorial
     * [Reproducibility](https://github.com/ToniWestbrook/repeatfs)
     * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) 
 
-* [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
+* [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#sequencing-read-assessment)
     * [FASTQ file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fastq-file-format)
     * [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-read-quality) - w/FASTQC
 
