@@ -3,7 +3,6 @@ Whole-Genome Assembly and Assessment Tutorial
 
 ## Overview of the Workflow
 
-![alt text](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/diagram-WGS.png)
 ![](img/diagram-WGS.png)
 
 ## Table of Contents
@@ -692,7 +691,7 @@ Depending on how you answer these questions you may have to go back and adjust y
 
 ## Genome visualization
 
-![alt text](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/genome-visual.png)
+![](img/genome-visual.png)
 
 ## Plot showing the N50 and genome sizes of Streptomyces genomes on genbank.
 ![streptomyces_genome_paper](https://user-images.githubusercontent.com/18738632/42292594-9b1a437e-7fa1-11e8-8a2e-b39fc9cfdcaf.jpg)
