@@ -35,7 +35,8 @@ Whole-Genome Assembly and Assessment Tutorial
 * [Filtering the Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#non-target-contig-removal) w/Blobtools
 
 * [Next Steps](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#afterthoughts)
-    * [Genome Visualization](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#non-target-contig-removal)
+    * [Genome Visualization](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial)
+    * [Submission to NCBI](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial)
     * [Comparative Genomics](https://github.com/Joseph7e/HCGS-Comparative-Genomics)
 
 ## General Notes:
