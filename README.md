@@ -8,8 +8,7 @@ Whole-Genome Assembly and Assessment Tutorial
 ## Table of Contents
 
 * [Getting Started](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#general-notes)  
-    * [Joe's BASH Tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial)
-    * [INBRE BASH Tutorials](https://geiselmed.dartmouth.edu/nhinbre/bioinformatics-modules/)
+    * [Joe's BASH Tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial) and [INBRE BASH Tutorials](https://geiselmed.dartmouth.edu/nhinbre/bioinformatics-modules/)
     * [Reproducibility](https://github.com/ToniWestbrook/repeatfs)
     * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) 
 
