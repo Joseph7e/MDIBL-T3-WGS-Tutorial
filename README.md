@@ -20,7 +20,7 @@ Whole-Genome Assembly and Assessment Tutorial
 * [Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data) - w/SPAdes
     * [FASTA file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fasta-format)
 
-* [Genome Assessment](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assessment
+* [Genome Assessment](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assessment)
     * [Genome Structure (Contiguity)](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-structure-assessment) - w/ QUAST
     * [Expected Gene Content](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-content-assessment) - w/ BUSCO
 
