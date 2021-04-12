@@ -1,7 +1,7 @@
 # MDIBL-T3-WGS
 Whole-Genome Assembly and Assessment Tutorial
 
-![alt text]https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/diagram-WGS.jpeg)
+![alt text](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial/blob/master/img/diagram-WGS.png)
 
 **This site will be continuously updated throughout the week.**
 
