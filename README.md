@@ -9,9 +9,9 @@ Whole-Genome Assembly and Assessment Tutorial
 
 * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Assessment of Sequencing Reads](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#examine-the-raw-reads)
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
+* [Read Quality Check](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#read-quality-check-w/-fastqc)
 
 * [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)
 
@@ -186,7 +186,8 @@ readlink -f fastqc_raw-reads/*.html
 scp USERNAME@ron.sr.unh.edu:/home/GROUP/USERNAME/mdibl-t3-2019-WGS/fastqc_raw-reads/*.html /path/to/put/files
 ```
 
-## Adapter and Quality Trimming w/ Trimmomatic
+## Adapter and Quality Trimming
+Trimmomatic
 manual: http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/TrimmomaticManual_V0.32.pdf
 
 alternative tools: [cutadapt](http://cutadapt.readthedocs.io/en/stable/guide.html), [skewer](https://github.com/relipmoc/skewer)
