@@ -7,7 +7,8 @@ Whole-Genome Assembly and Assessment Tutorial
 
 ## Table of Contents
 
-* [Starting Data](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)  
+* [Getting Started](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#starting-data)  
+    * [BASH tutorials](https://github.com/Joseph7e/HCGS-BASH-tutorial)
     * Datasets provided on the server
     * Publically available datasets
 
@@ -33,8 +34,8 @@ Whole-Genome Assembly and Assessment Tutorial
 
 * [Filtering the Genome Assembly](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#non-target-contig-removal) w/Blobtools
 
-* [Next Steps](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#afterthoughts) w/Blobtools
-    * Compartaive genomics
+* [Next Steps](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#afterthoughts)
+    * [Comparative Genomics](https://github.com/Joseph7e/HCGS-Comparative-Genomics)
 
 ## General Notes:
 **For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we run are general and usually executed with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
