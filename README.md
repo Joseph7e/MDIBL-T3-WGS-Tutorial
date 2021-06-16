@@ -56,6 +56,11 @@ Prepare Library           |  Sequence DNA
 <img src="https://jef.works//assets/blog/librarystructure.png" width="520">  |  <img src="https://github.com/Joseph7e/HCGS-Genomics-Tutorial/blob/master/hiseq.png?raw=true" width="320">
 
 ## How NGS sequencing works
+![alt text](https://github.com/Joseph7e/HCGS-Genomics-Tutorial/blob/master/youtube-video-sequencing.PNG?raw=true)
+
+
+
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/t0FMT_zxMrs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
