@@ -92,7 +92,7 @@ Important note: In the above command I use the "\*" character to view the Sample
 
 * Prepare your working directory
 
-It is a good idea to keep your directories tidy and to name your files something that makes sence. This is just to keep things organized so you know what everything is several months from now. We are going to make a new directory to house all of the analyses for this tutorial.
+It is a good idea to keep your directories tidy and to name your files something that makes sense. This is just to keep things organized so you know what everything is several months from now. We are going to make a new directory to house all of the analyses for this tutorial.
 
 ```bash
 # Make a new directory and add the Sample directory into it
