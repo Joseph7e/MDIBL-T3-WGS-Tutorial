@@ -142,7 +142,7 @@ I always start by counting the number of reads I have for each sample. This is d
 
 ```bash
 # using grep. Note that I don't count just '@', this is because that symbol may appear in the quality lines.
-zgrep -c '@HSQ' Sample*/*R1*
+zgrep -c '^@' Sample*/*R1*
 # counting the lines and dividing by 4. Remember each read entry is exactly four lines long. These numbers should match.
 zcat Sample*/*_R1_* | wc -l
 ```
