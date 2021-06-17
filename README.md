@@ -98,9 +98,9 @@ It is a good idea to keep your directories tidy and to name your files something
 
 ```bash
 # Make a new directory and add the Sample directory into it
-mkdir mdibl-t3-2019-WGS
-mv Sample* mdibl-t3-20189-WGS/
-cd mdibl-t3-2019-WGS/
+mkdir powered-wgs-tutorial
+mv Sample* powered-wgs-tutorial/
+cd powered-wgs-tutorial/
 # make the sample directory name more meaningful
 mv Sample_X Sample_X-raw_reads
 ```
