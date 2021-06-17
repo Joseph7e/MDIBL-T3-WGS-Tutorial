@@ -58,11 +58,6 @@ Prepare Library           |  Sequence DNA
 ## How NGS sequencing works
 [![sequencing by synthesis](img/youtube-video-sequencing.PNG)](https://www.youtube.com/watch?v=t0FMT_zxMrs "Sequencing")
 
-
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/t0FMT_zxMrs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-
 Your starting data is found within a shared directory within your group folder (one directory level up). To start we will move a set of Sample data into your home directories. Each of these samples represent the genome of a unique and novel microbe that has not been seen before (except by me). Inside this directory are Illumina HiSeq 2500, paired-end, 250 bp sequencing reads. Looking in this directory you should see two files per sample, the forward and reverse reads. These files are in **FASTQ** format (see below).
 
 
