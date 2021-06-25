@@ -105,6 +105,14 @@ cd powered-wgs-tutorial/
 mv Sample_X Sample_X-raw_reads
 ```
 
+## Activate the genomics environment
+This is important and ensures that all the programs we use are updates and in working order. You'll need to do this everytime you login to the server.
+
+```
+conda activate genomics
+```
+
+
 ## Sequencing Read Assessment
 
 Note the file extension - fastq.**gz**. Since these files are usually pretty big it is standard to receive them compressed. To view these files ourselves (which you normally wouldn't do) you either have to decompress the data with gzip or by using variations of the typical commands. Instead of 'cat' we use 'zcat', instead of grep we can use 'zgrep'. Below I show both ways.
