@@ -365,6 +365,8 @@ Most of the output files from QUAST contain the same information in different fo
 
 ![quast_output](https://user-images.githubusercontent.com/18738632/42242349-8db09646-7edb-11e8-8c05-f4ba103c9201.png)
 
+<img src="https://i0.wp.com/www.molecularecologist.com/wp-content/uploads/2017/03/Figure1b.jpg?resize=640%2C129" width="320">
+
 ## Genome Content Assessment w/ BUSCO
 manual: https://busco.ezlab.org/
 
