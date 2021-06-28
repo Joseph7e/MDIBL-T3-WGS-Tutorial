@@ -591,16 +591,16 @@ After that is complete we will use 'blobtools view' to output all the data into 
 
 ```bash
 # Create lookup table
-blobtools create --help
-blobtools create -i contigs.fasta -b raw_mapped.sam -t contigs.fasta.vs.nt.cul5.1e5.megablast.out -o blob_out
+blobtools2 create --help
+blobtools2 create -i contigs.fasta -b raw_mapped.sam -t contigs.fasta.vs.nt.cul5.1e5.megablast.out -o blob_out
 # Create output table
-blobtools view --help
-blobtools view -i blob_out.blobDB.json -r all -o blob_taxonomy
+blobtools2 view --help
+blobtools2 view -i blob_out.blobDB.json -r all -o blob_taxonomy
 # view the table, I remove headers with grep -v and view with tabview
 grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt
 # Plot the data
-blobtools plot --help
-blobtools plot -i blob_out.blobDB.json -r genus
+blobtools2 plot --help
+blobtools2 plot -i blob_out.blobDB.json -r genus
 ```
 The final table and plots can be exported to your computer to view. We will be using the table to decide which contigs to remove.
 
