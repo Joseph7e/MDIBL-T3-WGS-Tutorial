@@ -373,21 +373,13 @@ manual: https://busco.ezlab.org/
 
 BUSCO is a program utilized to assess the completeness of a genome assembly. This program makes use of the OrthoDB set of single-copy orthologous that are found in at least 90% of all the organisms in question. There are different data sets for various taxonomic groups (Eukaryotes, Metazoa, Bacteria, Gammaproteobacteria, etc. etc.). The idea is that a newly sequenced genome should contain most of these highly conserved genes. If your genome doesn't contain a large portion of these single-copy orthologs it may indicate that your genome is not complete.
 
-
-* BUSCO preperation
-```bash
-# Busco requires a path variable to be set before use.
-echo export AUGUSTUS_CONFIG_PATH="/usr/local/src/augustus-3.2.2/config/" >> ~/.bashrc
-# resource your bashrc to let the change take affect. (google bashrc to see what it is)
-source ~/.bashrc
-```
 * Path to lineage data on RON:
 
 We will be using the Bacterial data set for our BUSCO analyis. However, there are many data sets available on our server. Listing the path below will show you all the available data sets. These can also be seen in the BUSCO manual linked above. 
 
 ```bash
 # View available sets
-ls /usr/local/src/augustus-3.2.2/rc/
+busco --list-datasets
 ```
 * Run BUSCO
 
@@ -395,10 +387,10 @@ ls /usr/local/src/augustus-3.2.2/rc/
 
 ```bash
 #look at the help menu
-run_BUSCO.py --help
+busco --help
 # run busco
-nohup run_BUSCO.py -i contigs.fasta -o busco_output -m genome -l /usr/local/src/augustus-3.2.2/lineages/bacteria_odb9/ -c 1 &
-# note: the -c command is the number of threads. A bug in BLAST prevents consistent results with greater than 1 for this option.
+busco -i contigs.fasta -m genome -o busco-results -l bacteria
+# note: add the -c option to change the number of threads.
 ```
 
 * Examine the BUSCO output.
@@ -411,11 +403,11 @@ The final files we will examine are in a directory called 'single_copy_busco_seq
 
 ```bash
 # view the short summary
-less -S run_busco_output/short_summary_busco_output.txt
+less -S busco-results/short_summary.specific.bacteria_odb10.busco-results.txt
 # view the full table
-less -S run_busco_output/full_table_busco_output.tsv
+less -S busco-results/run_bacteria_odb10/full_table.tsv
 # list and view a amino acid of protein sequence
-ls run_busco_output/single_copy_busco_sequences/
+ls busco-results/run_bacteria_odb10/busco_sequences/
 ```
 
 ## Genome Annotation
