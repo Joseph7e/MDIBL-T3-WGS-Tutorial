@@ -680,6 +680,18 @@ Assuming we have carefully selected our criteria we are ready to construct a lis
 grep -f list_to_keep.txt blob_taxonomy.blob_out.blobDB.table.txt | awk '{w = w + $2; e = e + $5 * $2;} END {print e/w}'
 ```
  
+ ## BLAST the final contigs against UniVec to ensure no contamination is found.
+ 
+ ```
+ # download univec database
+ wget "https://ftp.ncbi.nlm.nih.gov/pub/UniVec/UniVec"
+
+# BLAST the sequences
+blastn -reward 1 -penalty -5 -gapopen 3 -gapextend 3 -dust yes -soft_masking true -evalue 700 -searchsp 1750000000000 -query filtered-SKB06.fasta -subject UniVec  -outfmt 6 -out genome_vs_univec.6
+ 
+ ```
+ 
+ 
  
  # FINISHED!!!!
  
