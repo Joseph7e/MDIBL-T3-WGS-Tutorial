@@ -227,10 +227,10 @@ You may have noticed from the fastqc output the some of your reads have poor qua
 
 ```bash
 # Run wrapper script
-trim_script_TruSeq.sh Sample_*/*_R1_* Sample_*/*_R2_*
+trim_scriptV2.sh Sample_*/*_R1_* Sample_*/*_R2_*
 # if you want to see inside the program you can take a look.
-which trim_script_TruSeq.sh
-more /usr/local/bin/trim_script_TruSeq.sh
+which trim_scriptV2.sh
+more /usr/local/bin/trim_scriptV2.sh
 ```
 
 * Move the trimmed reads to new directory - remember its a good idea to keep the directory clean.
