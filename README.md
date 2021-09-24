@@ -234,6 +234,7 @@ more /usr/local/bin/trim_scriptV2.sh
 ```
 
 * Move the trimmed reads to new directory - remember its a good idea to keep the directory clean.
+* Note: This is already done with the new trim_script version 2.
 ```bash
 mkdir trimmed_reads
 # move all the reads into the new directory
