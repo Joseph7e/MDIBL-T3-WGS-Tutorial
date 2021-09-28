@@ -557,20 +557,20 @@ Many programs perform read mapping. The recommended program depends on what you 
 
 ```bash
 # Step 1: Index your reference genome. This is a requirement before read mapping.
-bwa index -a bwtsw $fasta
+bwa index $fasta
 # Step 2: Map the reads and construct a SAM file.
-bwa mem -M -t 24 $fasta $forward $reverse > raw_mapped.sam
+bwa mem -t 24 $fasta $forward $reverse > raw_mapped.sam
 # view the file with less, note that to see the data you have to scroll down past all the headers (@SQ).
 less -S raw_mapped.sam
-# Examine how many reads mapped with samtools
-samtools flagstat raw_mapped.sam
 ```
 
 * Construct a coverage table using samtools and other programs.
 
 ```bash
 # Remove sequencing reads that did not match to the assembly and convert the SAM to a BAM.
-samtools view -@ 24 -Sb -F 4  raw_mapped.sam  | samtools sort -@ 24 - -o sorted_mapped.bam
+samtools view -@ 24 -Sb  raw_mapped.sam  | samtools sort -@ 24 - sorted_mapped
+# Examine how many reads mapped with samtools
+samtools flagstat sorted_mapped.bam
 # Calculate per base coverage with bedtools
 bedtools genomecov -ibam sorted_mapped.bam > coverage.out
 # Calculate per contig coverage with gen_input_table.py
