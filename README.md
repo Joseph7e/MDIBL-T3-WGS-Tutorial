@@ -644,13 +644,13 @@ Keeping the command we used above I am now adding some options based on column n
 
 ```bash
 # Start with a low number and check what you will lose (I'll try 5)
-grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 5}' | tabview -
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 5' | tabview -
 # Check what I am losing by doing the opposite
-grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5}' | tabview -
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5' | tabview -
 # Check how many we lose
-grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5}' | wc
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 < 5' | wc
 # Try a higher value
-grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 15}' | tabview -
+grep -v '#' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 15' | tabview -
 # turns out this makes no difference.
 ```
 Hopefully at some point you will be happy with what you decide for a filtering criteria. Be sure to carefully check what you are throwing away. Do any of the contigs still have the non-target taxonomy assigned? Are you losing anything that has the right taxonomy? If you notice contigs that are obviously contamination how can the filtering options be adjusted to remove these but not out targets? Do you need to add a taxonomy or GC based filter?
