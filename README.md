@@ -663,7 +663,7 @@ Assuming we have carefully selected our criteria we are ready to construct a lis
  
  ```bash
  # use awk to constuct list, the new part is the final part of the command which will only print the first column.
- grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 20}' | tabview -
+ grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 20' | tabview -
  grep -v '##' blob_taxonomy.blob_out.blobDB.table.txt | awk -F'\t' '$2 > 500' | awk -F'\t' '$5 > 20' | awk -F'\t' '{print $1}' > list_of_contigs_to_keep_len500_cov20.txt
  # view the file to make sure it is a list of contig headers
  less -S list_of_contigs_to_keep_len500_cov20.txt
