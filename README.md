@@ -19,7 +19,7 @@ Whole-Genome Assembly and Assessment Tutorial
     * [FASTA file format](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#fasta-format)
 * [Genome Assessment](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-assessment)
     * [Genome Structure (Contiguity)](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-structure-assessment) - w/ QUAST
-    * [Expected Gene Content](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-content-assessment) - w/ BUSCO
+    * [Expected Gene Content](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#Run BUSCO) - w/ BUSCO
 * [Genome Annotation](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#genome-annotation) w/PROKKA
 * [Identification of the Organism](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#organism-identification)
     * [BLAST](https://github.com/Joseph7e/MDIBL-T3-WGS-Tutorial#blast)
