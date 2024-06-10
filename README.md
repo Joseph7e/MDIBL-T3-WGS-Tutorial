@@ -106,11 +106,12 @@ It is a good idea to keep your directories tidy and to name your files something
 
 ```bash
 # Make a new directory and add the Sample directory into it
-mkdir powered-wgs-tutorial
-mv Sample* powered-wgs-tutorial/
-cd powered-wgs-tutorial/
+mkdir wgs-tutorial
+mv $SAMPLE* wgs-tutorial/
+cd wgs-tutorial/
 # make the sample directory name more meaningful
-mv Sample_X Sample_X-raw_reads
+mkdir raw-reads
+mv * raw-reads
 ```
 
 ## Activate the genomics environment
