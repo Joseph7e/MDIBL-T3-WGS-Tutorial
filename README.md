@@ -82,15 +82,16 @@ ls
 # ls to view the group directory (I type ‘ls’ a lot!)
 ls ../
 # view the shared directory of starting data
-ls ../shared
+ls /home/share/workshop/
 # View the shared project with the ‘tree’ command
-tree ../shared
+tree /home/share/
 # Copy a sample from the shared directory to your home dir, 
-#“Project_X”, where X denotes the Project name and "Sample_X" (where X denotes your sample name).
+# Replace $SAMPLE with your Sample name.
 # USE AUTOCOMPLETE
-cp -r ../shared/Project_X/ Sample_X/ ./
+cp /home/share/workshop/raw-fastqs/$SAMPLE*
+
 # confirm the copy arrived (remember ‘*’ will match any character/string)
-ls Sample_*/
+ls
 ```
 
 [Link explaining the 'Read Name Format'](http://support.illumina.com/content/dam/illumina-support/help/BaseSpaceHelp_v2/Content/Vault/Informatics/Sequencing_Analysis/BS/swSEQ_mBS_FASTQFiles.htm): SampleName_Barcode_LaneNumber_001.fastq.gz
