@@ -1,6 +1,9 @@
 # MDIBL-T3-WGS-Tutorial
 Whole-Genome Assembly and Assessment Tutorial
 
+https://docs.google.com/spreadsheets/d/1HkU4dPIeo3fW_8cOBP0GvthV44GGisZMlfj4OaKVFD4/edit?usp=sharing
+
+
 ## Overview of the Workflow
 
 ![](img/diagram-WGS.png)
