@@ -36,9 +36,6 @@ https://docs.google.com/spreadsheets/d/1EvpiJnXaSATcwjytRX1Fp1_uhuddOkGq0YOBVtss
 google sheet
 https://docs.google.com/spreadsheets/d/1auOfzSoYiHQIOrlcN3kZyKBPTjy1fbPiSClNuAKzdJ8/edit?usp=sharing
 
-shared presentation
-https://docs.google.com/presentation/d/1OBzO8tTlOovftlic2hYZ7EWInaVoaPCbp_dOabNGVWY/edit?usp=sharing
-
 ## General Notes:
 **For each program that we run in this tutorial I have provided a link to the manual**. These manuals provide a thorough explanation of what exactly we are doing. Before running the program it is a good idea to skim through these, examine the options, and see what it does. It is also a good idea to check out the publication associated with the program. Please note that the commands we run are general and usually executed with default settings. This works great for most genomes but the options may need to be tweaked depending on your genome. Before you run any command it is also a great idea to look at the programs help menu. This can usually be done with the name of the program followed by '-h' or '-help' or '--help'. i.e. 'spades -h'. Also ... never forget about google for quick answers to any confusion.
 
@@ -84,13 +81,13 @@ ls
 # ls to view the group directory (I type ‘ls’ a lot!)
 ls ../
 # view the shared directory of starting data
-ls /home/share/workshop/
+ls /home/share/example-data/
 # View the shared project with the ‘tree’ command
 tree /home/share/
 # Copy a sample from the shared directory to your home dir, 
 # Replace $SAMPLE with your Sample name.
 # USE AUTOCOMPLETE
-cp /home/share/workshop/raw-fastqs/$SAMPLE*
+cp /home/share/example-data/dartmouth-isolates/reads/$SAMPLE*
 
 # confirm the copy arrived (remember ‘*’ will match any character/string)
 ls
