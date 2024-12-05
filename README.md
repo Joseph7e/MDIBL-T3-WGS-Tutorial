@@ -576,7 +576,7 @@ less -S raw_mapped.sam
 
 ```bash
 # Remove sequencing reads that did not match to the assembly and convert the SAM to a BAM.
-samtools view -@ 24 -Sb  raw_mapped.sam  | samtools sort -@ 24 - sorted_mapped
+samtools view -@ 24 -Sb  raw_mapped.sam  | samtools sort -@ 24 -o sorted_mapped.bam
 # Examine how many reads mapped with samtools
 samtools flagstat sorted_mapped.bam
 # Calculate per base coverage with bedtools
