@@ -540,7 +540,7 @@ We store a local copy of the complete nucleotide database on our server. We will
 
 ```bash
 # run the scipt, note that it will automatically use nohup since it will take about 30 minutes to run
-blob_blast.sh contigs.fasta
+blast-ncbi-nt.sh contigs.fasta
 # view the reuslts, the last column is the species identification
 tabview contigs.fasta.vs.nt.cul5.1e5.megablast.out
 ```
