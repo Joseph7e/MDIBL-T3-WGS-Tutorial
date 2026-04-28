@@ -107,6 +107,7 @@ mv $SAMPLE* wgs-tutorial/
 cd wgs-tutorial/
 # make the sample directory name more meaningful
 mkdir raw-reads
+# the command below needs to be updated to relfect the location of the sample data.
 mv * raw-reads
 ```
 
